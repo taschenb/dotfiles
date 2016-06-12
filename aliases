@@ -1,0 +1,256 @@
+# Overwrite existing ------------------------------------------------{{{
+# Start the week with monday
+alias cal='cal -m'
+# Add color
+alias cower='cower --color'
+# Interactive: Prompt before overwriting
+alias cp='cp -i'
+# Show progress (requires a somewhat recent version of dd) 
+alias dd='dd status=progress'
+# Human readable (MB/GB/...)
+alias df='df --human-readable'
+# Human readable (MB/GB/...) and produce a grand total
+alias du='du --human-readable --total'
+# Add color
+alias grep='grep --color=auto'
+# Generate pdf and continously update preview
+alias latexmk='latexmk -pdf -pvc'
+# Add color, show hidden, and list directories first
+alias ls='ls --color=auto --almost-all --group-directories-first'
+# Prettier and more readable output with columns
+alias mount='mount | column -t'
+# Launch mpv as small window in the top right corner to do something
+# else besides watching the video
+alias mpv='mpv --geometry=30%--0++15'
+# Interactive: Prompt before overwriting
+alias mv='mv -i'
+# Add color
+alias pacman='pacman --color auto'
+# Stop after 4 pings
+alias ping="ping -c 4"
+# If htop is installed, use it instead of top
+if [[ -r /usr/bin/htop ]]; then
+    alias top='htop'
+fi
+# My editor is either nvim or vim, depending on the system I'm working
+# on. If nvim is set, I want to launch it with just vim
+# And disable the ctrl-s freeze of the terminal to map it to save in vim
+alias vim="stty stop '' -ixoff ; $EDITOR"
+# Resume download
+alias wget='wget -c' 
+# If colordiff is installed, used it instead of diff
+if type -p colordiff &> /dev/null ; then
+    alias diff="colordiff"; 
+fi
+# -------------------------------------------------------------------}}}
+
+# Create new --------------------------------------------------------{{{
+# Quick way to navigate
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+# List all files in a long list and with colors
+alias ll='ls -la --color=auto'
+# Get new mails and index them
+alias mailnew="mbsync -q --all && notmuch new"
+# Mount an iso
+alias mountiso="mount -t iso9660 -o loop"
+# List connections
+alias connections='netstat -tulanp'
+# Copy using rsync
+alias rp='rsync -a -P -c'
+# Print a nice overview for taskwarrior
+alias t='task calendar && task'
+# As vim is aliased to $EDITOR, this enables to specifically call
+# for vim in an nvim-enviroment
+alias vvim="stty stop '' -ixoff ; /usr/bin/vim"
+# If you launch nvim, disable the default ctrl-s behaviour, that
+# would freeze the terminal until you press ctrl-q
+alias nvim="stty stop '' -ixoff ; /usr/bin/nvim"
+# Print your external IP
+alias wan_ip='dig +short myip.opendns.com @resolver1.opendns.com'
+# Print the current week-number of the year
+alias week-number="date +%V"
+# Download 720p h264
+alias yt-dl-high='youtube-dl --format 22'
+# Download <720p h264
+alias yt-dl-low='youtube-dl --format 18'
+# -------------------------------------------------------------------}}}
+
+# Edit configs ------------------------------------------------------{{{
+cfg-aliases()     { $EDITOR ~/.aliases ; }
+cfg-awesome()     { $EDITOR ~/.config/awesome/rc.lua ; }
+cfg-bash()        { $EDITOR ~/.bashrc ; }
+cfg-bspwm()       { $EDITOR ~/.config/bspwm/bspwmrc ; }
+cfg-known_hosts() { $EDITOR ~/.ssh/known_hosts ; }
+cfg-mutt()        { $EDITOR ~/.mutt/muttrc ; }
+cfg-nvim()        { $EDITOR ~/.config/nvim/init.vim ; }
+cfg-panel()       { $EDITOR ~/.config/bspwm/panel ; }
+cfg-rss()         { $EDITOR ~/.newsbeuter/urls ; }
+cfg-ssh()         { $EDITOR ~/.ssh/config ; }
+cfg-sxhkd()       { $EDITOR ~/.config/sxhkd/sxhkdrc ; }
+cfg-tmux()        { $EDITOR ~/.tmux.conf ; }
+cfg-urls()        { $EDITOR ~/.newsbeuter/urls ; }
+cfg-vim()         { $EDITOR ~/.vim/vimrc ; }
+cfg-zsh()         { $EDITOR ~/.zshrc ; }
+# -------------------------------------------------------------------}}}
+
+# Functions ---------------------------------------------------------{{{
+# Check checksumsc without the need of visually comparing two sums
+# Usage: check sha512sum file checksum_to_compare
+check() {
+    case $1 in
+        "md5sum" | "sha1sum" | \
+        "sha224sum" | "sha256sum" | "sha384sum" | "sha512sum")
+            ;;
+        *)
+            echo "Unknown hash function"
+            return 1
+            ;;
+    esac
+
+    if v=$($1 "$2" | grep "$3 " && echo $); then
+        echo "checksums match"
+    else
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "!                                 !"
+        echo "! WARNING: CHECKSUMS DO NOT MATCH !"
+        echo "!                                 !"
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    fi
+       
+}
+
+# Pager using vim
+vmore() {
+    vim -c 'set laststatus=0 readonly nomodifiable' \
+    -c'nmap q :q!<CR>' -c'nmap <Up> <C-Y>' -c'nmap <Down> <C-E>'
+}
+
+# Extract archive
+extract() { 
+    if [ -f $1 ] ; then 
+      case $1 in 
+        *.tar.bz2)   tar xjf $1     ;; 
+        *.tar.gz)    tar xzf $1     ;; 
+        *.tar.xz)    tar xfJ $1     ;;
+        *.bz2)       bunzip2 $1     ;; 
+        *.rar)       unrar e $2     ;; 
+        *.gz)        gunzip $1      ;; 
+        *.tar)       tar xf $1      ;; 
+        *.tbz2)      tar xjf $1     ;; 
+        *.tgz)       tar xzf $1     ;; 
+        *.zip)       unzip $1       ;; 
+        *.Z)         uncompress $1  ;; 
+        *.7z)        7z x $1        ;; 
+        *)     echo "'$1' cannot be extracted via extract()" ;; 
+         esac 
+     else 
+         echo "'$1' is not a valid file" 
+     fi 
+}
+
+# Find name in the current directory
+# Usage: f file_to_find
+f() {
+	find ./ -name "$1" 2>&1 | grep -v 'Permission denied'
+}
+
+# Create a new directory and enter it
+md() {
+	mkdir -p "$@" && cd "$@"
+}
+
+# Update the current monitor setup
+reload_bspwm() {
+    ~/.config/bspwm/bspwmrc
+}
+
+# Generate a $1-character long password. Default 30
+# Usage: generatepassword 63
+generatepassword() {
+    default_length=30
+    tr -cd '[:graph:]' < /dev/urandom | fold -w${1-$default_length} | head -n1
+}
+
+# Pull mails periodically
+# Usage: check_new_mails MBSYNC_ACCOUNT_NAME(default: --all)
+check_new_mails() {
+    while true; do
+        echo "Getting mails for ${1-all accounts}..."
+        mbsync -q ${1-'--all'}  | grep -v 'cannot be opened.'
+        echo "Finished"
+        echo "Waiting 3m before the next pull..."
+        sleep 3m
+    done
+}
+
+# Get weather forecast (with frontend for wego https://github.com/schachmat/wego)
+# Usage: weather CITY(default: Munich)
+weather() {
+    curl http://wttr.in/${1-munich}
+}
+
+# Create tmux session video in the video folder, if it doesn't already 
+# exist and open ranger 
+video() {
+    if ! tmux attach -t video; then
+        tmux new-session -s video -c ~/videos/ -d
+        tmux send-keys -t video 'ranger' C-m
+        tmux attach -t video
+    fi
+}
+
+# Launch tmux for django development
+# Usage: website APP_NAME(default: blog) PROJECT_NAME(default: website) 
+# Example: website blog
+tmx-django(){
+    PROJECT_DIR=~/projects/
+    APP_NAME=${1-blog}
+    PROJECT_NAME=${1-website}
+    SESSION_NAME=django_$PROJECT_NAME
+
+    if ! tmux attach -t $SESSION_NAME; then
+
+        tmux new-session -d -s $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME
+
+        tmux rename-window 'server'
+        tmux send-keys 'source ./venv/bin/activate' 'C-m'
+        tmux send-keys 'python manage.py runserver' 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME
+        tmux rename-window 'tests'
+        tmux send-keys "$EDITOR $APP_NAME/tests.py" 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME
+        tmux rename-window 'urls'
+        tmux send-keys "$EDITOR $PROJECT_NAME/urls.py" 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME
+        tmux rename-window 'admin'
+        tmux send-keys "$EDITOR admin.py" 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME
+        tmux rename-window 'models'
+        tmux send-keys "$EDITOR models.py" 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME
+        tmux rename-window 'views'
+        tmux send-keys "$EDITOR views.py" 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/templates
+        tmux rename-window 'templates'
+        tmux send-keys "$EDITOR ./*" 'C-m'
+
+        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME/static/$APP_NAME
+        tmux rename-window 'static'
+        tmux send-keys "$EDITOR ./css/*" 'C-m'
+
+
+        tmux -2 attach-session -t $SESSION_NAME
+    fi
+}
+# -------------------------------------------------------------------}}}
+
+# -------------------------------------------------------------------}}}
