@@ -1,6 +1,3 @@
-" DEPRECATED!
-" Further changes are only found in the neovim configuration.
-
 " Vim-Plug ---------------------------------------------------------{{{
 set nocompatible
 " Get vim-plug, if it isn't already installed
