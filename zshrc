@@ -86,9 +86,14 @@ alias -s pdf=zathura
 
 # cd into directories
 setopt AUTO_CD
-# Default editor: nvim with disabled ctrl-s freeze, so that one can
-# map ctrl-s to save the current file
-export EDITOR="nvim"
+# Default EDITOR preferences based on availability: neovim, vim, nano
+if which nvim > /dev/null 2>&1; then
+    export EDITOR="nvim"
+elif which vim > /dev/null 2>&1; then
+    export EDITOR="vim"
+else
+    export EDITOR="nano"
+fi
 # Use vim/nvim as manpager
 if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
     export MANPAGER="/bin/sh -c \"col -b | $EDITOR -c'set ft=man ts=8 nomod nolist nonu noma' -c 'nmap q :q!<CR>' -c'nmap <Up> <C-Y>' -c'nmap <Down> <C-E>' -c'set nonumber' -c'set norelativenumber' -\""

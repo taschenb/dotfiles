@@ -62,8 +62,14 @@ fi
 # ------------------------------------------------------------------}}}
 
 # Environment variables  -------------------------------------------{{{
-# Default editor
-export EDITOR=nvim
+# Default EDITOR preferences based on availability: neovim, vim, nano
+if which nvim > /dev/null 2>&1; then
+    export EDITOR="nvim"
+elif which vim > /dev/null 2>&1; then
+    export EDITOR="vim"
+else
+    export EDITOR="nano"
+fi
 # Print time how long a program run, if the time exceeds 30s
 export REPORTTIME=30
 # Use vim/nvim as manpager
