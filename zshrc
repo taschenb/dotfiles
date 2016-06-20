@@ -86,18 +86,6 @@ alias -s pdf=zathura
 
 # cd into directories
 setopt AUTO_CD
-# Default EDITOR preferences based on availability: neovim, vim, nano
-if which nvim > /dev/null 2>&1; then
-    export EDITOR="nvim"
-elif which vim > /dev/null 2>&1; then
-    export EDITOR="vim"
-else
-    export EDITOR="nano"
-fi
-# Use vim/nvim as manpager
-if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
-    export MANPAGER="/bin/sh -c \"col -b | $EDITOR -c'set ft=man ts=8 nomod nolist nonu noma' -c 'nmap q :q!<CR>' -c'nmap <Up> <C-Y>' -c'nmap <Down> <C-E>' -c'set nonumber' -c'set norelativenumber' -\""
-fi
 # ------------------------------------------------------------------}}}
 
 # X title  ---------------------------------------------------------{{{
@@ -121,4 +109,16 @@ esac;
 # Environment variables  -------------------------------------------{{{
 # Print time how long a program run, if the time exceeds 30s
 export REPORTTIME=30
+# Default EDITOR preferences based on availability: neovim, vim, nano
+if which nvim > /dev/null 2>&1; then
+    export EDITOR="nvim"
+elif which vim > /dev/null 2>&1; then
+    export EDITOR="vim"
+else
+    export EDITOR="nano"
+fi
+# Use vim/nvim as manpager
+if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
+    export MANPAGER="/bin/sh -c \"col -b | $EDITOR -c'set ft=man ts=8 nomod nolist nonu noma' -c 'nmap q :q!<CR>' -c'nmap <Up> <C-Y>' -c'nmap <Down> <C-E>' -c'set nonumber' -c'set norelativenumber' -\""
+fi
 # ------------------------------------------------------------------}}}
