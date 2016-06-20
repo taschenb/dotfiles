@@ -119,6 +119,10 @@ else
 fi
 # Use vim/nvim as manpager
 if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
-    export MANPAGER="/bin/sh -c \"col -b | $EDITOR -c'set ft=man ts=8 nomod nolist nonu noma' -c 'nmap q :q!<CR>' -c'nmap <Up> <C-Y>' -c'nmap <Down> <C-E>' -c'set nonumber' -c'set norelativenumber' -\""
+    export MANPAGER="/bin/sh -c \"col -b | \
+        $EDITOR -c'set ft=man ts=8 nomod nolist nonu noma' \
+        -c 'nmap q :q!<CR>' -c'nmap <Up> <C-Y>' \
+        -c'nmap <Down> <C-E>' -c'set nonumber' \
+        -c'set norelativenumber' -\""
 fi
 # ------------------------------------------------------------------}}}
