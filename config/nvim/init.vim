@@ -53,6 +53,8 @@ Plug 'kshenoy/vim-signature'
 Plug 'lokaltog/vim-easymotion'
 " Display tags in a window, ordered by scope
 Plug 'majutsushi/tagbar'
+" Highlight columns in csv/tsv/*sv/xsv files in different colors
+Plug 'mechatroner/rainbow_csv'
 " Flake8 plugin for Vim 
 Plug 'nvie/vim-flake8', { 'for': 'python' }
 " Toggle the mouse focus between Vim and your terminal emulator
