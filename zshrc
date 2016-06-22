@@ -99,6 +99,13 @@ case $TERM in rxvt*|*term|linux|*term-256color)
 esac; 
 # ------------------------------------------------------------------}}}
 
+# Aliases ----------------------------------------------------------{{{
+# Load files if they exist
+[[ -f ~/.aliases ]] && source ~/.aliases
+# Second one for host specific aliases
+[[ -f ~/.aliases.local ]] && source ~/.aliases.local
+# ------------------------------------------------------------------}}}
+
 # Environment variables  -------------------------------------------{{{
 # Print time how long a program run, if the time exceeds 30s
 export REPORTTIME=30
@@ -118,11 +125,4 @@ if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
         -c'nmap <Down> <C-E>' -c'set nonumber' \
         -c'set norelativenumber' -\""
 fi
-# ------------------------------------------------------------------}}}
-
-# Aliases ----------------------------------------------------------{{{
-# Load files if they exist
-[[ -f ~/.aliases ]] && source ~/.aliases
-# Second one for host specific aliases
-[[ -f ~/.aliases.local ]] && source ~/.aliases.local
 # ------------------------------------------------------------------}}}

@@ -34,10 +34,14 @@ if [[ -r /usr/bin/htop ]]; then
 fi
 # Disable the ctrl-s freeze of the terminal to map it to save in
 # neovim and vim.
-# $EDITOR is either nvim, vim or nano and automatically set.
 # If nvim is installed, I still want to simply type vim to run nvim.
-if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
-	alias vim="stty stop '' -ixoff ; $EDITOR"
+# Enable vvim to be able to run vim in this case.
+if which nvim > /dev/null 2>&1; then
+	alias vim="stty stop '' -ixoff ; nvim"
+    alias nvim="stty stop '' -ixoff ; nvim"
+    alias vvim="stty stop '' -ixoff ; /usr/bin/vim"
+elif which vim > /dev/null 2>&1; then
+	alias vim="stty stop '' -ixoff ; vim"
 fi
 # Resume download
 alias wget='wget -c' 
@@ -65,12 +69,6 @@ alias connections='netstat -tulanp'
 alias rp='rsync -a -P -c'
 # Print a nice overview for taskwarrior
 alias t='task calendar && task'
-# As vim is aliased to $EDITOR, this enables to specifically call
-# for vim in an nvim-enviroment
-alias vvim="stty stop '' -ixoff ; /usr/bin/vim"
-# If you launch nvim, disable the default ctrl-s behaviour, that
-# would freeze the terminal until you press ctrl-q
-alias nvim="stty stop '' -ixoff ; /usr/bin/nvim"
 # Print your external IP
 alias wan_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 # Print the current week-number of the year
