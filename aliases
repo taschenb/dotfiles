@@ -37,11 +37,11 @@ fi
 # If nvim is installed, I still want to simply type vim to run nvim.
 # Enable vvim to be able to run vim in this case.
 if which nvim > /dev/null 2>&1; then
-	alias vim="stty stop '' -ixoff ; nvim"
+    alias vim="stty stop '' -ixoff ; nvim"
     alias nvim="stty stop '' -ixoff ; nvim"
     alias vvim="stty stop '' -ixoff ; /usr/bin/vim"
 elif which vim > /dev/null 2>&1; then
-	alias vim="stty stop '' -ixoff ; vim"
+    alias vim="stty stop '' -ixoff ; vim"
 fi
 # Resume download
 alias wget='wget -c' 
@@ -155,12 +155,12 @@ extract() {
 # Find name in the current directory
 # Usage: f file_to_find
 f() {
-	find ./ -name "$1" 2>&1 | grep -v 'Permission denied'
+    find ./ -name "$1" 2>&1 | grep -v 'Permission denied'
 }
 
 # Create a new directory and enter it
 md() {
-	mkdir -p "$@" && cd "$@"
+    mkdir -p "$@" && cd "$@"
 }
 
 # Update the current monitor setup
