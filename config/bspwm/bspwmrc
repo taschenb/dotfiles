@@ -68,7 +68,7 @@ bspc config remove_unplugged_monitors true
 # Application rules
 # xprop | grep WM_CLASS
 bspc rule -a Gimp state=floating
-bspc rule -a mpv state=floating sticky=on
+bspc rule -a mpv state=floating sticky=on focus=off
 bspc rule -a "Tor Browser" state=floating
 
 # Panel
