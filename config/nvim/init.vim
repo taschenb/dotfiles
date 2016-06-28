@@ -19,7 +19,7 @@ Plug 'AndrewRadev/switch.vim'
 Plug 'ap/vim-css-color', { 'for': 'css' }
 " A plugin for asynchronous :make
 Plug 'benekastah/neomake'
-" Lean & mean status/tabline for vim that's light as air 
+" Lean & mean status/tabline for vim that's light as air
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " Check for attachments when writing mails with mutt
 Plug 'chrisbra/CheckAttach', { 'for': 'mail' }
@@ -29,7 +29,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 " Plug 'davidhalter/jedi-vim'
 " Functions and mappings to close open HTML/XML tags
 Plug 'docunext/closetag.vim'
-" Generate a fast shell prompt with powerline symbols and airline colors 
+" Generate a fast shell prompt with powerline symbols and airline colors
 Plug 'edkolev/promptline.vim'
 " Edit binary files in a hex mode automatically
 Plug 'fidian/hexmode'
@@ -47,7 +47,7 @@ Plug 'JuliaLang/julia-vim'
 Plug 'junegunn/vim-easy-align'
 " The missing motion for Vim
 Plug 'justinmk/vim-sneak'
-" Toggle, display and navigate marks 
+" Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 " Vim motions on speed!
 Plug 'lokaltog/vim-easymotion'
@@ -55,7 +55,7 @@ Plug 'lokaltog/vim-easymotion'
 Plug 'majutsushi/tagbar'
 " Highlight columns in csv/tsv/*sv/xsv files in different colors
 Plug 'mechatroner/rainbow_csv'
-" Flake8 plugin for Vim 
+" Flake8 plugin for Vim
 Plug 'nvie/vim-flake8', { 'for': 'python' }
 " Toggle the mouse focus between Vim and your terminal emulator
 Plug 'nvie/vim-togglemouse'
@@ -77,9 +77,9 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " Vim undo tree visualizer
 Plug 'simnalamburt/vim-mundo'
-"  Make scrolling in Vim more pleasant 
+"  Make scrolling in Vim more pleasant
 Plug 'terryma/vim-smooth-scroll'
-" Easy text exchange operator for Vim 
+" Easy text exchange operator for Vim
 Plug 'tommcdo/vim-exchange'
 " Git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
@@ -137,7 +137,7 @@ vnoremap gU <esc>mz<esc>gvgU`z
 " And make it lowercase.
 nnoremap gu <esc>mz<esc>guiw`z
 vnoremap gu <esc>mz<esc>gvgu`z
-" in input-mode hit ctrl+u to uppercase word 
+" in input-mode hit ctrl+u to uppercase word
 inoremap <c-g> <esc>gUiwea
 nnoremap <c-g> gUiw
 " -------------------------------------------------------------------}}}
@@ -213,7 +213,7 @@ augroup END
 " HTML --------------------------------------------------------------{{{
 augroup html_macros
     autocmd!
-    autocmd FileType html setlocal shiftwidth=2 tabstop=2 
+    autocmd FileType html setlocal shiftwidth=2 tabstop=2
     " Use filetype htmldjango in order to have additional django
     " specific syntax highlighting
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
@@ -224,7 +224,7 @@ augroup END
 " Latex -------------------------------------------------------------{{{
 augroup latex
     autocmd!
-    " Compiling manually. 
+    " Compiling manually.
     " Usually I have latexmk -pdf -pvc document.tex running, though
     autocmd FileType tex :nnoremap <F9> :w<CR>:Dispatch rubber --pdf -q %<CR>
     autocmd FileType tex :set spell
@@ -234,7 +234,7 @@ augroup END
 " Make --------------------------------------------------------------{{{
 augroup make
     autocmd FileType make setlocal noexpandtab
-augroup END 
+augroup END
 " -------------------------------------------------------------------}}}
 
 " PHP ---------------------------------------------------------------{{{
@@ -247,7 +247,7 @@ augroup END
 " -------------------------------------------------------------------}}}
 
 " Python ------------------------------------------------------------{{{
-augroup python 
+augroup python
     autocmd!
     "Flake8 source code checker (F7)
     autocmd FileType python map <buffer> <F10> :call Flake8()<CR>
@@ -319,7 +319,7 @@ com! DiffSaved call s:DiffWithSaved()
 " NumberToggle ------------------------------------------------------{{{
 function! NumberToggle()
     if &relativenumber
-        set norelativenumber 
+        set norelativenumber
         set nonumber
     else
         set relativenumber
@@ -361,8 +361,8 @@ set history=1000
 " Indentation {{{
 filetype plugin indent on
 " Easier moving of code blocks
-vnoremap < <gv	
-vnoremap > >gv	
+vnoremap < <gv
+vnoremap > >gv
 " -------------------------------------------------------------------}}}
 
 " Insert Mode Completion --------------------------------------------{{{
@@ -498,7 +498,7 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 " map <Leader>h <Plug>(easymotion-linebackward)
 " keep cursor colum when JK motion
-let g:EasyMotion_startofline = 0 
+let g:EasyMotion_startofline = 0
 " exclude ';' for non-us-layout
 let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
 " -------------------------------------------------------------------}}}
@@ -611,7 +611,7 @@ noremap <Leader>q :quit<CR>
 
 " Reload ------------------------------------------------------------{{{
 " Automatically reload files changed outside of vim
-set autoread 
+set autoread
 
 " Auto-reload vimrc
 augroup reload_vimrc " {
@@ -628,13 +628,13 @@ noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR><Esc>
 
-" Allow saving of files as sudo 
+" Allow saving of files as sudo
 cmap w!! w !sudo tee > /dev/null %
 " -------------------------------------------------------------------}}}
 
 " Scrolling ---------------------------------------------------------{{{
 set scrolloff=8         "Start scrolling before reaching the end
-set sidescrolloff=15 
+set sidescrolloff=15
 set sidescroll=1
 " -------------------------------------------------------------------}}}
 
@@ -699,9 +699,9 @@ set timeoutlen=10
 " -------------------------------------------------------------------}}}
 
 " Undo --------------------------------------------------------------{{{
-set undofile    
+set undofile
 set undodir=~/.config/nvim/tmp
-set undoreload=10000 
+set undoreload=10000
 set undolevels=10000
 " Remap U to <C-r> for easier redo
 nnoremap U <C-r>
