@@ -8,7 +8,7 @@ zstyle ':completion:*' menu auto
 setopt MENU_COMPLETE
 # If glob can't find anything in the directory, it passes the glob to
 # the invoking program to handle it
-setopt NO_NOMATCH 
+setopt NO_NOMATCH
 # Use extended globbing
 setopt EXTENDEDGLOB
 # Typo correction
@@ -26,7 +26,7 @@ setopt NO_BEEP
 HISTFILE=~/.histfile
 # Lines of history in the shell
 HISTSIZE=20000
-# Lines of history to save to the histfile 
+# Lines of history to save to the histfile
 SAVEHIST=20000
 # Ignore duplicate lines in the history for writing to the histfile
 setopt HIST_SAVE_NO_DUPS
@@ -57,7 +57,7 @@ colors
 export CLICOLOR=1
 # Set colors
 LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=30;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}  
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # Enable syntax-highlighting
 if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
@@ -90,13 +90,13 @@ setopt AUTO_CD
 
 # X title  ---------------------------------------------------------{{{
 # Set the title of the current terminal to the last entered command
-case $TERM in rxvt*|*term|linux|*term-256color) 
+case $TERM in rxvt*|*term|linux|*term-256color)
 	if [[ ! -z $SSH_TTY ]]; then
 		preexec () { print -Pn "\e]0;%n@%m %~ [$1]\a" };
 	else
 		preexec () { print -Pn "\e]0;%n %~ [$1]\a" };
-	fi		
-esac; 
+	fi
+esac;
 # ------------------------------------------------------------------}}}
 
 # Aliases ----------------------------------------------------------{{{

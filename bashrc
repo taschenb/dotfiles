@@ -8,7 +8,7 @@ HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
 # Save right after execution and reload it for sync
 # between multiple terminals
-PROMPT_COMMAND='history -a; history -n' 
+PROMPT_COMMAND='history -a; history -n'
 # Lines of history in the shell
 HISTSIZE=20000
 # Lines of history in the histfile
@@ -19,7 +19,7 @@ HISTFILESIZE=20000
 # Misc  ------------------------------------------------------------{{{
 # Resize properly if windows is resized
 shopt -s checkwinsize
-# Auto "cd" when entering just a path 
+# Auto "cd" when entering just a path
 shopt -s autocd
 # ------------------------------------------------------------------}}}
 

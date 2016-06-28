@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Requirements: 
+# Requirements:
 # * Lemonbar with XFT support (https://github.com/krypt-n/bar)
 # * Font: Awesome font for icons (http://fortawesome.github.io/Font-Awesome/)
 # * Music: mpd/mopidy and mpc
@@ -15,8 +15,6 @@
 #   to adjust some stuff for your hardware.
 # * Be aware, that it is also not optimized in any way and has quite a few
 #   events/s going on, that might affect your battery.
-# * If you have any feedback or tips, please don't hesitate to contact me,
-#   as I'm aware that there must be better ways to do these things
 
 
 ########################################################################
@@ -92,9 +90,9 @@ panel_battery() {
                     bat_icon=""
                 elif [ $bat_perc -lt 26 ]; then
                     bat_icon=""
-                elif [ $bat_perc -lt 60 ]; then 
+                elif [ $bat_perc -lt 60 ]; then
                     bat_icon=""
-                elif [ $bat_perc -lt 85 ]; then 
+                elif [ $bat_perc -lt 85 ]; then
                     bat_icon=""
                 else
                     bat_icon=""
@@ -127,7 +125,7 @@ panel_mail() {
 }
 
 # Display mpd/mopidy current song
-# Requires mpc 
+# Requires mpc
 panel_mpd() {
     mpd_status=$(mpc status 2>&1 | sed -n '2p' | awk '{ print $1}')
 
@@ -145,7 +143,7 @@ panel_vpn() {
     echo ""
 }
 
-# Check if ethernet/wifi is connected 
+# Check if ethernet/wifi is connected
 panel_network() {
     wifi_quality=$(cat /proc/net/wireless | awk 'END { print $3 }' | \
         sed 's/\.$//')
@@ -188,7 +186,7 @@ panel_audio() {
     sound_card1=$(cat /proc/asound/cards | awk '/^ 1 / {print $4}')
 
     # Detect which card to use. Depending on whether or not the USB card was
-    # present at boot time, the order changes 
+    # present at boot time, the order changes
     if [ "$sound_card0" = HDA-Intel ]; then
         sound_card_intel=0
     elif [ "$sound_card1" = HDA-Intel ]; then

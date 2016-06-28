@@ -5,7 +5,7 @@ alias cal='cal -m'
 alias cower='cower --color'
 # Interactive: Prompt before overwriting
 alias cp='cp -i'
-# Show progress (requires a somewhat recent version of dd) 
+# Show progress (requires a somewhat recent version of dd)
 alias dd='dd status=progress'
 # Human readable (MB/GB/...)
 alias df='df --human-readable'
@@ -44,10 +44,10 @@ elif which vim > /dev/null 2>&1; then
     alias vim="stty stop '' -ixoff ; vim"
 fi
 # Resume download
-alias wget='wget -c' 
+alias wget='wget -c'
 # If colordiff is installed, used it instead of diff
 if type -p colordiff &> /dev/null ; then
-    alias diff="colordiff"; 
+    alias diff="colordiff";
 fi
 # -------------------------------------------------------------------}}}
 
@@ -120,7 +120,7 @@ check() {
         echo "!                                 !"
         echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     fi
-       
+
 }
 
 # Pager using vim
@@ -130,26 +130,26 @@ vmore() {
 }
 
 # Extract archive
-extract() { 
-    if [ -f $1 ] ; then 
-      case $1 in 
-        *.tar.bz2)   tar xjf $1     ;; 
-        *.tar.gz)    tar xzf $1     ;; 
+extract() {
+    if [ -f $1 ] ; then
+      case $1 in
+        *.tar.bz2)   tar xjf $1     ;;
+        *.tar.gz)    tar xzf $1     ;;
         *.tar.xz)    tar xfJ $1     ;;
-        *.bz2)       bunzip2 $1     ;; 
-        *.rar)       unrar e $2     ;; 
-        *.gz)        gunzip $1      ;; 
-        *.tar)       tar xf $1      ;; 
-        *.tbz2)      tar xjf $1     ;; 
-        *.tgz)       tar xzf $1     ;; 
-        *.zip)       unzip $1       ;; 
-        *.Z)         uncompress $1  ;; 
-        *.7z)        7z x $1        ;; 
-        *)     echo "'$1' cannot be extracted via extract()" ;; 
-         esac 
-     else 
-         echo "'$1' is not a valid file" 
-     fi 
+        *.bz2)       bunzip2 $1     ;;
+        *.rar)       unrar e $2     ;;
+        *.gz)        gunzip $1      ;;
+        *.tar)       tar xf $1      ;;
+        *.tbz2)      tar xjf $1     ;;
+        *.tgz)       tar xzf $1     ;;
+        *.zip)       unzip $1       ;;
+        *.Z)         uncompress $1  ;;
+        *.7z)        7z x $1        ;;
+        *)     echo "'$1' cannot be extracted via extract()" ;;
+         esac
+     else
+         echo "'$1' is not a valid file"
+     fi
 }
 
 # Find name in the current directory
@@ -193,8 +193,8 @@ weather() {
     curl http://wttr.in/${1-munich}
 }
 
-# Create tmux session video in the video folder, if it doesn't already 
-# exist and open ranger 
+# Create tmux session video in the video folder, if it doesn't already
+# exist and open ranger
 video() {
     if ! tmux attach -t video; then
         tmux new-session -s video -c ~/videos/ -d
@@ -204,7 +204,7 @@ video() {
 }
 
 # Launch tmux for django development
-# Usage: website APP_NAME(default: blog) PROJECT_NAME(default: website) 
+# Usage: website APP_NAME(default: blog) PROJECT_NAME(default: website)
 # Example: website blog
 tmx-django(){
     PROJECT_DIR=~/projects/

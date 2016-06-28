@@ -287,7 +287,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end),
 
      -- Lock screen
-	awful.key({ modkey }, "F12", function () awful.util.spawn("slock") end),
+    awful.key({ modkey }, "F12", function () awful.util.spawn("slock") end),
 
     -- Backlight
     awful.key({ }, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight -inc 5", false) end),
