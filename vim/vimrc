@@ -20,7 +20,7 @@ Plug 'ap/vim-css-color', { 'for': 'css' }
 " A plugin for asynchronous :make
 Plug 'benekastah/neomake'
 " Lean & mean status/tabline for vim that's light as air
-Plug 'bling/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " Check for attachments when writing mails with mutt
 Plug 'chrisbra/CheckAttach', { 'for': 'mail' }
 " Handles bracketed-paste-mode in vim (aka. automatic `:set paste`)
@@ -41,6 +41,8 @@ Plug 'gregsexton/gitv'
 Plug 'hynek/vim-python-pep8-indent'
 " Insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs', { 'for': 'tex' }
+" Vim support for Julia. http://julialang.org/
+Plug 'JuliaLang/julia-vim'
 " alignment plugin
 Plug 'junegunn/vim-easy-align'
 " The missing motion for Vim
@@ -51,10 +53,14 @@ Plug 'kshenoy/vim-signature'
 Plug 'lokaltog/vim-easymotion'
 " Display tags in a window, ordered by scope
 Plug 'majutsushi/tagbar'
+" Highlight columns in csv/tsv/*sv/xsv files in different colors
+Plug 'mechatroner/rainbow_csv'
 " Flake8 plugin for Vim
 Plug 'nvie/vim-flake8', { 'for': 'python' }
 " Toggle the mouse focus between Vim and your terminal emulator
 Plug 'nvie/vim-togglemouse'
+" Syntax file for OpenCL1.1
+Plug 'petRUShka/vim-opencl'
 " Vim plugin that use clang for completing C/C++ code
 Plug 'Rip-Rip/clang_complete'
 " Adds font icons (glyphs ★♨☢)
@@ -64,7 +70,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree
 " Next generation completion framework after neocomplcache
 Plug 'Shougo/neocomplete.vim' | Plug 'Shougo/echodoc'
 " Unite and create user interfaces
-Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim'
+Plug 'Shougo/unite.vim' | Plug 'Shougo/neoyank.vim' | Plug 'kopischke/unite-spell-suggest'
 " Interactive command execution in Vim
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " The ultimate snippet solution for Vim
@@ -87,14 +93,18 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 " An extensible & universal comment plugin that also handles embedded filetypes
 Plug 'vim-scripts/tComment'
+"Vim plugin that provides additional text objects
+Plug 'wellle/targets.vim'
 " A vim plugin to display the indention levels with thin vertical lines
 Plug 'Yggdroot/indentLine', { 'for': 'python' }
 " Plugins End -------------------------------------------------------}}}
 
 " Colorschemes ------------------------------------------------------{{{
 Plug 'endel/vim-github-colorscheme'
+Plug 'freeo/vim-kalisi'
 Plug 'joshdick/airline-onedark.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 Plug 'mswift42/vim-themes'
 Plug 'NLKNguyen/papercolor-theme'
@@ -139,7 +149,8 @@ noremap! <S-Insert> <MiddleMouse>
 " -------------------------------------------------------------------}}}
 
 " Color -------------------------------------------------------------{{{
-colorscheme molokai
+set t_Co=256
+colorscheme kalisi
 set background=dark
 " -------------------------------------------------------------------}}}
 
@@ -155,15 +166,17 @@ nnoremap <F1> :call NumberToggle()<cr>
 " F2: Paste-mode
 set pastetoggle=<F2>
 " F4: Spellchecking
-:map <F4> :setlocal spell! spelllang=en_us<CR>
+:nnoremap <F4> :setlocal spell! spelllang=en_us<CR>
+:inoremap <F4> <ESC>:setlocal spell! spelllang=en_us<CR>a
 " F5: Undo tree
 nnoremap <F5> :MundoToggle<CR>
+inoremap <ESC><F5> :MundoToggle<CR>
 " F6: Nerdtree
 :imap <F6> <ESC>:NERDTreeToggle<CR>
 :map <F6> :NERDTreeToggle<CR>
 " F8: Tagbar
 nmap <F8> :TagbarToggle<CR>
-map <leader>f :call FillLine( '-' )<CR>A
+imap <F8> <ESC>:TagbarToggle<CR>
 " -------------------------------------------------------------------}}}
 
 " Fast Terminal -----------------------------------------------------{{{
@@ -184,9 +197,7 @@ augroup END
 " Django ------------------------------------------------------------{{{
 augroup django_python
     au!
-
     au BufNewFile,BufRead urls.py       setlocal nowrap
-
     au BufNewFile,BufRead admin.py      setlocal filetype=python.django
     au BufNewFile,BufRead urls.py       setlocal filetype=python.django
     au BufNewFile,BufRead models.py     setlocal filetype=python.django
@@ -203,6 +214,8 @@ augroup END
 augroup html_macros
     autocmd!
     autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    " Use filetype htmldjango in order to have additional django
+    " specific syntax highlighting
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
     au BufNewFile,BufRead *.dram setlocal filetype=htmldjango
 augroup END
@@ -271,10 +284,9 @@ augroup END
 " Filetype End ------------------------------------------------------}}}
 
 " Fold --------------------------------------------------------------{{{
-"Don't fold by default
+" Don't fold by default. See filetype-section above for i.e. vimrc
+" for manually selecting specific filetypes to fold
 set nofoldenable
-" Set folding to syntax
-" setlocal foldmethod=syntax
 "Jump from fold to fold
 "map <Leader>j zj
 "map <Leader>k zk
@@ -336,8 +348,9 @@ endfunction
 " Functions End -----------------------------------------------------}}}
 
 " Highlighting ------------------------------------------------------{{{
-syntax on "syntax highlighting
-" highlight matching parenthisis
+" Enable syntax highlighting
+syntax on
+" Highlight matching parenthisis as bold
 hi MatchParen cterm=bold ctermbg=none ctermfg=none
 " -------------------------------------------------------------------}}}
 
@@ -364,7 +377,9 @@ nnoremap <Space> <Nop>
 " -------------------------------------------------------------------}}}
 
 " Line Numbers ------------------------------------------------------{{{
-"set relativenumbers and for the actual line print the absolute linenumber
+" Use relativenumbers to use commands for multiple lines way faster
+" For the current line print the absolute linenumber instead of a
+" useless 0
 set relativenumber
 set number
 " -------------------------------------------------------------------}}}
@@ -393,7 +408,9 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-" Easier to type
+" More often I have to address the beginning or end of a line instead
+" of the currently displayed text. But the jumps would be too unprecise
+" in most cases anyway.
 noremap H 0
 noremap L $
 vnoremap L g_
@@ -409,6 +426,7 @@ map <Leader>t <esc>:tabnew<CR>
 " Newline with enter
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
+imap <C-j> <Enter>
 " -------------------------------------------------------------------}}}
 
 " Open Files --------------------------------------------------------{{{
@@ -425,15 +443,16 @@ nmap Q gqap
 " Plugin Settings ---------------------------------------------------{{{
 
 " Airline -----------------------------------------------------------{{{
-set laststatus=2 "allways enable the powerline
-set noshowmode " "hide mode, since we are using airline
-let g:airline_theme = 'ubaryd'
+set laststatus=2 " allways enable the powerline
+set noshowmode " " hide mode, since we are using airline for that
+let g:airline_powerline_fonts = 1 " use powerline font symbols
+let g:airline_theme = 'jellybeans'
 " let g:airline_theme = 'papercolor'
 " -------------------------------------------------------------------}}}
 
 " CheckAttach -------------------------------------------------------{{{
 " Check mail for the following words
-let g:attach_check_keywords ='angehängt, Anhang, anhang, attached, attachment'
+let g:attach_check_keywords = 'angehängt, Anhang, anhang, attached, attachment'
 " Use ranger to attach file
 let g:checkattach_filebrowser = 'ranger'
 " -------------------------------------------------------------------}}}
@@ -551,6 +570,10 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 2)<CR>
 " switch-plugin: toggle with -
 nnoremap - :Switch<CR>
 " -------------------------------------------------------------------}}}
+" Targets -----------------------------------------------------------{{{
+" Preserve whitespaces by default
+nmap cia cIa
+" -------------------------------------------------------------------}}}
 
 " Ultisnips ---------------------------------------------------------{{{
 " set ulttisnips to c-j
@@ -570,9 +593,9 @@ let g:unite_source_history_yank_enable = 1
 nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async:!<cr>
 nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files file<cr>
 nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru -start-insert file_mru<cr>
-nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
-nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  -start-insert buffer<cr>
+nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank history/yank<cr>
+nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer buffer<cr>
+nnoremap <silent> z= <Esc>:Unite -buffer-name=spell -auto-resize spell_suggest<CR>
 " -------------------------------------------------------------------}}}
 
 " vim-easy-align ----------------------------------------------------{{{
@@ -597,8 +620,9 @@ augroup END " }
 " -------------------------------------------------------------------}}}
 
 " Save --------------------------------------------------------------{{{
-"Save the file with ctrl+s needs terminal alias to not freeze
-"alias vim="stty stop '' -ixoff ; vim"
+" Save the file with ctrl+s needs terminal alias or it will freeze
+" according to the default behaviour of ctrl+s / ctrl+q in a terminal
+" alias nvim="stty stop '' -ixoff ; nvim"
 noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR><Esc>
@@ -633,10 +657,10 @@ map ctrl + w _
 map ctrl + w |
 map ctrl + w =
 " Move around
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
+" map <c-j> <c-w>j
+" map <c-k> <c-w>k
+" map <c-l> <c-w>l
+" map <c-h> <c-w>h
 " Resize splits when window is resized
 au VimResized * :wincmd =
 " Easier
@@ -654,6 +678,7 @@ set dir=~/.vim/tmp
 " -------------------------------------------------------------------}}}
 
 " Tab ---------------------------------------------------------------{{{
+" Use 4 spaces instead of a tab.
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
