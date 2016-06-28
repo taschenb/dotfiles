@@ -203,6 +203,15 @@ video() {
     fi
 }
 
+# Install meslo font from https://github.com/ryanoasis/nerd-fonts
+install_font_meslo(){
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts && curl -fLo \
+    "Meslo LG L DZ Regular for Powerline.otf" \
+    https://github.com/powerline/fonts/blob/master/Meslo/Meslo%20LG%20L%20DZ%20Regular%20for%20Powerline.otf?raw=true
+    fc-cache
+}
+
 # Launch tmux for django development
 # Usage: website APP_NAME(default: blog) PROJECT_NAME(default: website)
 # Example: website blog
