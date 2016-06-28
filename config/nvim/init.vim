@@ -450,8 +450,7 @@ nmap Q gqap
 " Airline -----------------------------------------------------------{{{
 set laststatus=2 " allways enable the powerline
 set noshowmode " " hide mode, since we are using airline for that
-" let g:airline_theme = 'ubaryd'
-let g:airline_theme = 'cool'
+let g:airline_theme = 'jellybeans'
 " let g:airline_theme = 'papercolor'
 " -------------------------------------------------------------------}}}
 
