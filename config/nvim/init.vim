@@ -551,7 +551,7 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 " -------------------------------------------------------------------}}}
 
 " Promptline --------------------------------------------------------{{{
-let g:promptline_theme = 'kalisi'
+let g:promptline_theme = 'airline'
 let g:promptline_preset = {
     \'b': [ promptline#slices#host(), promptline#slices#user() ],
     \'c': [ promptline#slices#cwd() ],
