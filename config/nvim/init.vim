@@ -424,7 +424,7 @@ vnoremap L g_
 " Move Tabs ---------------------------------------------------------{{{
 map <Leader>p <esc>:tabprevious<CR>
 map <Leader>n <esc>:tabnext<CR>
-map <Leader>t <esc>:tabnew<CR>
+map <Leader>c <esc>:tabnew<CR>
 " -------------------------------------------------------------------}}}
 
 " Newline -----------------------------------------------------------{{{
