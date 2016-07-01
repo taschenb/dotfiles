@@ -458,6 +458,9 @@ let g:airline#extensions#tabline#buffer_min_count = 2
 " Disable the close button
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline_powerline_fonts = 1 " use powerline font symbols
+" Get rid of the unnecessary symbol after the max line-nr
+let g:airline_symbols = get(g:,'airline_symbols',{})
+let g:airline_symbols.maxlinenr=''
 let g:airline_theme = 'jellybeans'
 " let g:airline_theme = 'papercolor'
 " -------------------------------------------------------------------}}}
