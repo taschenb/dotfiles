@@ -126,6 +126,10 @@ inoremap jj <Esc>
 inoremap jk <Esc>
 " Unload buffer
 nnoremap <Leader>bd :bd<CR>
+" Next buffer
+nnoremap <C-n> :bn<CR>
+" Previous buffer
+nnoremap <C-p> :bp<CR>
 " Switch between buffers without saving
 set hidden
 " -------------------------------------------------------------------}}}
