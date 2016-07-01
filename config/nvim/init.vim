@@ -455,6 +455,8 @@ set noshowmode " " hide mode, since we are using airline for that
 let g:airline#extensions#tabline#enabled = 2
 " Don't display the buffer-line, if there's only the current one open
 let g:airline#extensions#tabline#buffer_min_count = 2
+" Disable the close button
+let g:airline#extensions#tabline#show_close_button = 0
 let g:airline_powerline_fonts = 1 " use powerline font symbols
 let g:airline_theme = 'jellybeans'
 " let g:airline_theme = 'papercolor'
