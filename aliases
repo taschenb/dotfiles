@@ -212,6 +212,44 @@ install_font_meslo(){
     fc-cache
 }
 
+# Decrypt pdf files
+# Uses qpdf, pdftk or pdftops for decrypting and will prompt for the password. 
+# Usage: pdfdecrypt FILES
+# Example: pdfdecrypt *.pdf
+pdfdecrypt(){
+    # Password-prompt
+    echo -n "Password: "; read -s PASSWORD
+
+    # Go through the first argument/file, and shift later to the next
+    while [ -n "$1" ]
+    do
+        if [ -f "$1" ]; then
+            if which qpdf > /dev/null 2>&1; then
+                qpdf --password="$PASSWORD" --decrypt "$1" "$1.tmp" && \
+                mv "$1.tmp" "$1"
+            elif which pdftk > /dev/null 2>&1; then
+                pdftk "$1" output "$1.tmp" user_pw "$PASSWORD" && \
+                mv "$1.tmp" "$1"
+            elif which pdftops > /dev/null 2>&1; then
+                echo "No qpdf/pdftk installed, creating postscript files..."
+                pdftops -upw "$PASSWORD" "$1"
+            else
+                >&2 echo "Error: No supported programm found."
+                >&2 echo "Please install qpdf, pdftk, or pdftops."
+                return 1
+            fi
+        else
+            >&2 echo "$1 is not a file"
+        fi
+
+        # Shift to the next argument/file
+        shift
+        if [ $? -ne 0 ]; then
+            break
+        fi
+    done
+}
+
 # Launch tmux for django development
 # Usage: website APP_NAME(default: blog) PROJECT_NAME(default: website)
 # Example: website blog
