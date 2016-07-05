@@ -252,7 +252,7 @@ pdfdecrypt(){
 
 # Launch tmux for django development
 # Usage: website APP_NAME(default: blog) PROJECT_NAME(default: website)
-# Example: website blog
+# Example: tmx-django website blog
 tmx-django(){
     PROJECT_DIR=~/projects/
     APP_NAME=${1-blog}
@@ -268,33 +268,15 @@ tmx-django(){
         tmux send-keys 'python manage.py runserver' 'C-m'
 
         tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME
-        tmux rename-window 'tests'
-        tmux send-keys "$EDITOR $APP_NAME/tests.py" 'C-m'
-
-        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME
-        tmux rename-window 'urls'
-        tmux send-keys "$EDITOR $PROJECT_NAME/urls.py" 'C-m'
-
-        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME
-        tmux rename-window 'admin'
-        tmux send-keys "$EDITOR admin.py" 'C-m'
-
-        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME
-        tmux rename-window 'models'
-        tmux send-keys "$EDITOR models.py" 'C-m'
-
-        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME
-        tmux rename-window 'views'
-        tmux send-keys "$EDITOR views.py" 'C-m'
-
-        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/templates
-        tmux rename-window 'templates'
-        tmux send-keys "$EDITOR ./*" 'C-m'
-
-        tmux new-window -t $SESSION_NAME -c $PROJECT_DIR/$PROJECT_NAME/$APP_NAME/static/$APP_NAME
-        tmux rename-window 'static'
-        tmux send-keys "$EDITOR ./css/*" 'C-m'
-
+        tmux rename-window 'vim'
+        tmux send-keys "$EDITOR $APP_NAME/tests.py \
+            $PROJECT_NAME/urls.py \
+            $APP_NAME/admin.py \
+            $APP_NAME/views.py \
+            $APP_NAME/models.py \
+            templates/* \
+            $APP_NAME/static/$APP_NAME/css/* \
+            " 'C-m'
 
         tmux -2 attach-session -t $SESSION_NAME
     fi
