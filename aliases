@@ -195,7 +195,7 @@ weather() {
 
 # Create tmux session video in the video folder, if it doesn't already
 # exist and open ranger
-video() {
+tmx-video(){
     if ! tmux attach -t video; then
         tmux new-session -s video -c ~/videos/ -d
         tmux send-keys -t video 'ranger' C-m
