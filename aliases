@@ -187,6 +187,25 @@ check_new_mails() {
     done
 }
 
+# Pull and read mails in a tmux session (mails) using check_new_mails()
+tmx-mails(){
+    SESSION_NAME=mails
+
+    if ! tmux attach -t $SESSION_NAME; then
+
+        tmux new-session -d -s $SESSION_NAME
+
+        tmux rename-window 'check'
+        tmux send-keys 'check_new_mails' 'C-m'
+
+        tmux new-window -t $SESSION_NAME 
+        tmux rename-window 'mutt'
+        tmux send-keys 'mutt' 'C-m'
+
+        tmux -2 attach-session -t $SESSION_NAME
+    fi
+}
+
 # Get weather forecast (with frontend for wego https://github.com/schachmat/wego)
 # Usage: weather CITY(default: Munich)
 weather() {
