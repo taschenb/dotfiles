@@ -106,21 +106,30 @@ check() {
         "sha224sum" | "sha256sum" | "sha384sum" | "sha512sum")
             ;;
         *)
-            echo "Unknown hash function"
+            >&2 echo "Error: Unknown hash function"
+            echo "Available checksums are:"
+            echo "md5sum, sha1sum, sha224sum, sha256sum sha384sum sha512sum"
             return 1
             ;;
     esac
 
+    if [ -z "$3" ]; then
+        >&2 echo "Error: No checksum provided"
+        return 1
+    fi
+
     if v=$($1 "$2" | grep "$3 " && echo $); then
-        echo "checksums match"
+        echo "Checksums match"
     else
         echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         echo "!                                 !"
         echo "! WARNING: CHECKSUMS DO NOT MATCH !"
         echo "!                                 !"
         echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    fi
 
+        >&2 echo "Error: Checksums do not match!"
+        return 1
+    fi
 }
 
 # Pager using vim
