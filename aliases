@@ -198,7 +198,7 @@ tmx-mails(){
         tmux rename-window 'check'
         tmux send-keys 'check_new_mails' 'C-m'
 
-        tmux new-window -t $SESSION_NAME 
+        tmux new-window -t $SESSION_NAME
         tmux rename-window 'mutt'
         tmux send-keys 'mutt' 'C-m'
 
@@ -232,7 +232,7 @@ install_font_meslo(){
 }
 
 # Decrypt pdf files
-# Uses qpdf, pdftk or pdftops for decrypting and will prompt for the password. 
+# Uses qpdf, pdftk or pdftops for decrypting and will prompt for the password.
 # Usage: pdfdecrypt FILES
 # Example: pdfdecrypt *.pdf
 pdfdecrypt(){
