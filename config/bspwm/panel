@@ -31,8 +31,6 @@ PANEL_FIFO=/tmp/panel-fifo
 MAIL_DIR=~/.mail
 
 COLOR_FILE=~/.config/bspwm/panel_colors
-
-ETHERNET_DEV=enp0s25
 ########################################################################
 
 
@@ -127,7 +125,7 @@ panel_mail() {
 # Display mpd/mopidy current song
 # Requires mpc
 panel_mpd() {
-    mpd_status=$(mpc status 2>&1 | sed -n '2p' | awk '{ print $1}')
+    mpd_status=$(mpc status 2>&1 | awk 'NR==2 { print $1}')
 
     case "$mpd_status" in
         "[paused]")  echo "$COLOR_MPD_PAUSE   $(mpc current)" ;;
@@ -150,7 +148,7 @@ panel_network() {
     # Fix percentage
     wifi_quality=$(($wifi_quality/7*10))
 
-    default_interface=$(ip route |  sed -n '1p' | awk '{ print $5}')
+    default_interface=$(ip route | awk 'NR==1 { print $5}')
 
     case $default_interface in
         eth* | enp*)
