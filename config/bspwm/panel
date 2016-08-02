@@ -147,25 +147,27 @@ panel_vpn() {
 panel_network() {
     wifi_quality=$(cat /proc/net/wireless | awk 'END { print $3 }' | \
         sed 's/\.$//')
-
     # Fix percentage
     wifi_quality=$(($wifi_quality/7*10))
 
-    # TODO: Autodetect devices
-    eth_carrier=$(cat /sys/class/net/$ETHERNET_DEV/carrier)
+    default_interface=$(ip route |  sed -n '1p' | awk '{ print $5}')
 
-    if [ $eth_carrier = 1 ]; then
-        #
-        echo "$COLOR_NETWORK_ETHERNET  "
-    elif [ $wifi_quality != 0 ]; then
-        if [ $wifi_quality -lt 35 ]; then
-            echo "$COLOR_NETWORK_WIFI_BAD  "
-        elif [ $wifi_quality -lt 70 ]; then
-            echo "$COLOR_NETWORK_WIFI_OK  "
-        else
-            echo "$COLOR_NETWORK_WIFI_GOOD  "
-        fi
-    fi
+    case $default_interface in
+        eth* | enp*)
+            echo "$COLOR_NETWORK_ETHERNET  "
+            ;;
+        wlan* | wlp*)
+            if [ $wifi_quality != 0 ]; then
+                if [ $wifi_quality -lt 35 ]; then
+                    echo "$COLOR_NETWORK_WIFI_BAD  "
+                elif [ $wifi_quality -lt 70 ]; then
+                    echo "$COLOR_NETWORK_WIFI_OK  "
+                else
+                    echo "$COLOR_NETWORK_WIFI_GOOD  "
+                fi
+            fi
+            ;;
+    esac
 }
 
 # Get volume level and track if headphone is plugged in.
