@@ -31,6 +31,8 @@ PANEL_FIFO=/tmp/panel-fifo
 MAIL_DIR=~/.mail
 
 COLOR_FILE=~/.config/bspwm/panel_colors
+
+MPD_HOSTS=(localhost raspberry)
 ########################################################################
 
 
@@ -122,15 +124,27 @@ panel_mail() {
     echo "$COLOR_MAIL  $mail_icon $mail_new/$mail_tot"
 }
 
-# Display mpd/mopidy current song
+# Display mpd/mopidy the currently playing song following the $MPD_HOSTS as
+# priorities.
+# Is something playing on $MPD_HOSTS[0], display it, regardless of the status
+# of $MPD_HOSTS[1]. If more than one daemon is available and paused without any
+# other in playing-state, it doesn't matter to me which one is being displayed,
+# since all could be resumed from this machine.
 # Requires mpc
 panel_mpd() {
-    mpd_status=$(mpc status 2>&1 | awk 'NR==2 { print $1}')
+    for host in ${MPD_HOSTS[@]}; do
+        mpd_status=$(mpc -h $host status 2>&1 | awk 'NR==2 { print $1}')
 
-    case "$mpd_status" in
-        "[paused]")  echo "$COLOR_MPD_PAUSE   $(mpc current)" ;;
-        "[playing]") echo "$COLOR_MPD_PLAY  $(mpc current)" ;;
-    esac
+        case "$mpd_status" in
+            "[paused]")
+                mpd_line="$COLOR_MPD_PAUSE   $(mpc -h $host current)" ;;
+            "[playing]")
+                mpd_line="$COLOR_MPD_PLAY  $(mpc -h $host current)"
+                break
+                ;;
+        esac
+    done
+    echo $mpd_line
 }
 
 panel_tor() {
