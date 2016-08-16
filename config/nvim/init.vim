@@ -49,6 +49,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
+" A modern vim plugin for editing LaTeX files
+Plug 'lervag/vimtex'
 " Vim motions on speed!
 Plug 'lokaltog/vim-easymotion'
 " Display tags in a window, ordered by scope
