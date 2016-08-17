@@ -62,7 +62,7 @@ alias ll='ls -la --color=auto'
 # Get new mails and index them
 alias mailnew="mbsync -q --all ; notmuch new"
 # Mount an iso
-alias mountiso="mount -t iso9660 -o loop"
+alias mountiso="sudo mount -t iso9660 -o loop"
 # List connections
 alias connections='netstat -tulanp'
 # Copy using rsync
