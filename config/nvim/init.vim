@@ -26,7 +26,7 @@ Plug 'chrisbra/CheckAttach', { 'for': 'mail' }
 " Handles bracketed-paste-mode in vim (aka. automatic `:set paste`)
 Plug 'ConradIrwin/vim-bracketed-paste'
 "  Using the jedi autocompletion library for VIM.
-" Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 " Functions and mappings to close open HTML/XML tags
 Plug 'docunext/closetag.vim'
 " Generate a fast shell prompt with powerline symbols and airline colors
