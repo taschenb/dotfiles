@@ -9,6 +9,8 @@ alias cp='cp -i'
 alias dd='dd status=progress'
 # Human readable (MB/GB/...)
 alias df='df --human-readable'
+# Human readable timestamps
+alias dmesg='dmesg -T'
 # Human readable (MB/GB/...) and produce a grand total
 alias du='du --human-readable --total'
 # Add color
