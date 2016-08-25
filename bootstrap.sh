@@ -17,7 +17,7 @@ config/nvim/init.vim latexmkrc git_template"
 set_git_template="git_template"
 
 # WM
-set_bspwm="config/bspwm/"
+set_bspwm="config/bspwm/ config/sxhkd"
 set_awesome="config/awesome/"
 
 
