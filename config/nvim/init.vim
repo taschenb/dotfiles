@@ -104,6 +104,7 @@ Plug 'Yggdroot/indentLine', { 'for': 'python' }
 " Colorschemes ------------------------------------------------------{{{
 Plug 'endel/vim-github-colorscheme'
 Plug 'freeo/vim-kalisi'
+Plug 'jacoborus/tender.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
@@ -155,7 +156,7 @@ noremap! <S-Insert> <MiddleMouse>
 
 " Color -------------------------------------------------------------{{{
 set t_Co=256
-colorscheme kalisi
+colorscheme tender
 set background=dark
 " -------------------------------------------------------------------}}}
 
