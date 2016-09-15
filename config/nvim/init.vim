@@ -104,7 +104,6 @@ Plug 'Yggdroot/indentLine', { 'for': 'python' }
 " Colorschemes ------------------------------------------------------{{{
 Plug 'endel/vim-github-colorscheme'
 Plug 'freeo/vim-kalisi'
-Plug 'joshdick/airline-onedark.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
@@ -498,7 +497,7 @@ let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
 let g:deoplete#sources#clang#std#c = 'c11'
 " Python autocompletion
 autocmd FileType python setlocal omnifunc=jedi#completions
-let g:jedi#completions_enabled = 0
+let g:jedi#completions_enabled = 1
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#show_call_signatures = 0
