@@ -104,7 +104,7 @@ Plug 'Yggdroot/indentLine', { 'for': 'python' }
 " Colorschemes ------------------------------------------------------{{{
 Plug 'endel/vim-github-colorscheme'
 Plug 'freeo/vim-kalisi'
-Plug 'joshdick/airline-onedark.vim'
+Plug 'jacoborus/tender.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
@@ -156,7 +156,7 @@ noremap! <S-Insert> <MiddleMouse>
 
 " Color -------------------------------------------------------------{{{
 set t_Co=256
-colorscheme kalisi
+colorscheme tender
 set background=dark
 " -------------------------------------------------------------------}}}
 
@@ -593,10 +593,10 @@ nmap cia cIa
 
 " Ultisnips ---------------------------------------------------------{{{
 " set ulttisnips to c-j
-let g:UltiSnipsExpandTrigger       = "<c-j>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
-let g:UltiSnipsListSnippets        = "<c-k>"
+let g:UltiSnipsExpandTrigger       = "<c-k>"
+let g:UltiSnipsJumpForwardTrigger  = "<c-k>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-r>"
+let g:UltiSnipsListSnippets        = "<c-b>"
 " -------------------------------------------------------------------}}}
 
 " Unite -------------------------------------------------------------{{{
