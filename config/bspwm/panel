@@ -318,7 +318,7 @@ $(panel_clock) $panel_mail_msg " > "$PANEL_FIFO" &
 done &
 
 # Pipe everything through panel_bar to lemonbar
-cat "$PANEL_FIFO" | ~/.config/bspwm/panel_bar | lemonbar -g "$PANEL_GEOMETRY" \
+cat "$PANEL_FIFO" | ~/.config/bspwm/panel_bar | lemonbar -d -g "$PANEL_GEOMETRY" \
     -f "$PANEL_FONT_ICONS" -f "$PANEL_FONT_FAMILY" -F "$COLOR_FOREGROUND" \
     -B "$COLOR_BACKGROUND" &
 
