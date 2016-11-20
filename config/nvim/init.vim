@@ -27,6 +27,8 @@ Plug 'chrisbra/CheckAttach', { 'for': 'mail' }
 Plug 'ConradIrwin/vim-bracketed-paste'
 "  Using the jedi autocompletion library for VIM.
 Plug 'davidhalter/jedi-vim'
+" Switching between companion source files (e.g. ".h" and ".cpp")
+Plug 'derekwyatt/vim-fswitch'
 " Functions and mappings to close open HTML/XML tags
 Plug 'docunext/closetag.vim'
 " Generate a fast shell prompt with powerline symbols and airline colors
