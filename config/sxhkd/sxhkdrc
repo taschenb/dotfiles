@@ -136,6 +136,10 @@ super + @button{1-3}
 # Use slock as screenlocker
 super + F12
     slock
+
+# Reload for new displays
+super + F5
+    ~/.config/bspwm/bspwmrc
 # ------------------------------------------------------------------}}}
 
 
