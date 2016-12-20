@@ -5,7 +5,7 @@ super + Return
 
 # Program launcher
 super + {space,r}
-    dmenu_run -fn "Meslo LG S DZ for Powerline-9"
+    dmenu_run -fn "Meslo LG S DZ for Powerline-9" -nb "#031219"
 
 # Reload sxhkd's configuration
 super + Escape
