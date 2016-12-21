@@ -31,14 +31,15 @@ PANEL_FIFO=/tmp/panel-fifo
 MAIL_DIR=~/.mail
 
 COLOR_FILE=~/.config/bspwm/panel_colors
+ICON_FILE=~/.config/bspwm/panel_icons
 
 MPD_HOSTS=(localhost raspberry)
 ########################################################################
 
 
 if [ $(pgrep -cx panel) -gt 1 ] ; then
-	printf "%s\n" "The panel is already running." >&2
-	exit 1
+    printf "%s\n" "The panel is already running." >&2
+    exit 1
 fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
@@ -49,9 +50,9 @@ PANEL_WIDTH=$(xdpyinfo | awk '/dimensions/ {print $2}' | cut -d 'x' -f1)
 PANEL_GEOMETRY="${PANEL_WIDTH}x${PANEL_HEIGHT}+0+0"
 
 # Load Colors
-if [ -f "$COLOR_FILE" ]; then
-    . $COLOR_FILE
-fi
+[ -f "$COLOR_FILE" ] && . $COLOR_FILE
+# Load Icons
+[ -f "$ICON_FILE" ] && . $ICON_FILE
 
 # Create PANEL_FIFO
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
@@ -59,11 +60,14 @@ mkfifo "$PANEL_FIFO"
 
 bspc subscribe > "$PANEL_FIFO" &
 
+
 # Display and monitor battery status.
 # Shutdown system if battery is low
 panel_battery() {
     # Check if a battery is present
     if [ -f /sys/class/power_supply/BAT0/status ]; then
+        BAT_SHUTDOWN_PERC=3
+
         bat_status=$(cat /sys/class/power_supply/BAT0/status)
         bat_perc=$(cat /sys/class/power_supply/BAT0/capacity)
 
@@ -78,37 +82,42 @@ panel_battery() {
 
         # Show different icons for different states
         case "$bat_status" in
-            "Charging") bat_msg=" $bat_perc%" ;;
-            "Full")     bat_msg=" Fully Charged" ;;
-            "Unknown")  bat_msg=" AC" ;;
+            "Charging" | "Full")
+                bat_msg="$ICON_BATTERY_AC $bat_perc%"
+                ;;
+            "Unknown")
+                bat_msg="$ICON_BATTERY_AC AC"
+                ;;
             "Discharging")
                 # Shutdown, if battery is low
-                if [ $bat_perc -lt 3 ]; then
+                if [ $bat_perc -lt $BAT_SHUTDOWN_PERC ]; then
                     $(/usr/bin/poweroff)
-                    bat_icon=""
+                    bat_icon="$ICON_BATTERY_EMPTY"
                 elif [ $bat_perc -lt 9 ]; then
-                    bat_icon=""
+                    bat_icon="$ICON_BATTERY_EMPTY"
                 elif [ $bat_perc -lt 26 ]; then
-                    bat_icon=""
+                    bat_icon="$ICON_BATTERY_LOW"
                 elif [ $bat_perc -lt 60 ]; then
-                    bat_icon=""
+                    bat_icon="$ICON_BATTERY_MED"
                 elif [ $bat_perc -lt 85 ]; then
-                    bat_icon=""
+                    bat_icon="$ICON_BATTERY_HIGH"
                 else
-                    bat_icon=""
+                    bat_icon="$ICON_BATTERY_FULL"
                 fi
+
                 bat_msg="$bat_icon $bat_perc %"
                 ;;
         esac
 
-        echo "$bat_color $bat_msg"
+        echo "$bat_color$ICON_DIVIDER $bat_msg"
     fi
 }
 
 # Display date and time
 panel_clock() {
-    echo "$COLOR_CLOCK   $(date "+%a %d, %T")"
+    echo "$COLOR_CLOCK $ICON_DIVIDER $ICON_CLOCK $(date "+%a %d, %T")"
 }
+
 
 # Check .mail for new mails
 # This requires a background script downloading mails
@@ -117,12 +126,13 @@ panel_mail() {
     mail_cur=$(find $MAIL_DIR/*/I*/cur -type f | wc -l)
     mail_tot=$((mail_new+mail_cur))
     if [ $mail_new -eq 0 ];then
-        mail_icon=""
+        mail_icon="$ICON_MAIL_NO_NEW"
     else
-        mail_icon=""
+        mail_icon="$ICON_MAIL_NEW"
     fi
-    echo "$COLOR_MAIL  $mail_icon $mail_new/$mail_tot"
+    echo "$COLOR_MAIL $ICON_DIVIDER $mail_icon $mail_new/$mail_tot"
 }
+
 
 # Display mpd/mopidy the currently playing song following the $MPD_HOSTS as
 # priorities.
@@ -137,9 +147,9 @@ panel_mpd() {
 
         case "$mpd_status" in
             "[paused]")
-                mpd_line="$COLOR_MPD_PAUSE   $(mpc -h $host current)" ;;
+                mpd_line="$COLOR_MPD_PAUSE$ICON_MUSIC $ICON_MUSIC_PAUSE  $(mpc -h $host current)" ;;
             "[playing]")
-                mpd_line="$COLOR_MPD_PLAY  $(mpc -h $host current)"
+                mpd_line="$COLOR_MPD_PLAY$ICON_MUSIC  $(mpc -h $host current)"
                 break
                 ;;
         esac
@@ -166,17 +176,19 @@ panel_network() {
 
     case $default_interface in
         eth* | enp*)
-            echo "$COLOR_NETWORK_ETHERNET  "
+            echo "$COLOR_NETWORK_ETHERNET $ICON_DIVIDER $ICON_ETHERNET"
             ;;
         wlan* | wlp*)
             if [ $wifi_quality != 0 ]; then
                 if [ $wifi_quality -lt 35 ]; then
-                    echo "$COLOR_NETWORK_WIFI_BAD  "
+                    wifi_color="$COLOR_NETWORK_WIFI_BAD"
                 elif [ $wifi_quality -lt 70 ]; then
-                    echo "$COLOR_NETWORK_WIFI_OK  "
+                    wifi_color="$COLOR_NETWORK_WIFI_OK"
                 else
-                    echo "$COLOR_NETWORK_WIFI_GOOD  "
+                    wifi_color="$COLOR_NETWORK_WIFI_GOOD"
                 fi
+
+                echo "$wifi_color $ICON_DIVIDER $ICON_WIFI $essid"
             fi
             ;;
     esac
@@ -225,20 +237,20 @@ panel_audio() {
         sed -n '2p')
 
     if [ "$headphone" = on ] || [ "$headphone_docking" = on ]; then
-        icon=""
+        icon="$ICON_HEADPHONES"
     else
         if [ $audio_volume -lt 25 ]; then
-            icon=""
+            icon="$ICON_VOLUME_LOW"
         elif [ $audio_volume -lt 51 ]; then
-            icon=""
+            icon="$ICON_VOLUME_MED"
         else
-            icon=""
+            icon="$ICON_VOLUME_HIGH"
         fi
     fi
 
     # If the usb card is connected add a usb icon
     if [ "$sound_card0" = USB-Audio ] || [ "$sound_card1" = USB-Audio ]; then
-        icon=" "
+        icon="$ICON_VOLUME_HIGH "
         # Manually set audio_muted to on if usb is present
         audio_status="on"
     fi
@@ -263,9 +275,9 @@ panel_audio() {
     # Print the volume bar
     if [ $audio_counter -lt $max_count ]; then
         if [ "$audio_status" = off ]; then
-            icon="$COLOR_AUDIO_OFF  $icon "
+            icon="$COLOR_AUDIO_OFF $ICON_DIVIDER $icon "
         else
-            icon="$COLOR_AUDIO_ON  $icon "
+            icon="$COLOR_AUDIO_ON $ICON_DIVIDER $icon "
         fi
         case $audio_volume in
             100) echo "$icon" "——————————" ;;
@@ -283,9 +295,9 @@ panel_audio() {
     # Truncate
     else
         if [ "$audio_status" = off ]; then
-            echo "$COLOR_AUDIO_OFF  $icon"
+            echo "$COLOR_AUDIO_OFF $ICON_DIVIDER $icon"
         else
-            echo "$COLOR_AUDIO_ON  $icon"
+            echo "$COLOR_AUDIO_ON $ICON_DIVIDER $icon"
         fi
     fi
 
