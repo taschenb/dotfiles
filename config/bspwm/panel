@@ -158,8 +158,17 @@ panel_mpd() {
     echo $mpd_line
 }
 
+
+# Display when Tor service is running
+# This only checks if the service if active. Nothing more.
 panel_tor() {
-    echo ""
+    if [ -f /usr/bin/tor ]; then
+        tor_service=$(systemctl is-active tor)
+
+        if [ "$tor_service" = "active" ]; then
+            echo "$COLOR_TOR $ICON_DIVIDER $ICON_TOR"
+        fi
+    fi
 }
 
 panel_vpn() {
@@ -325,7 +334,7 @@ while true; do
     fi
 
     # Output everything every second
-    echo "S  $(panel_audio)  $panel_battery_msg $panel_network_msg \
+    echo "S $(panel_tor) $(panel_audio)  $panel_battery_msg $panel_network_msg \
 $(panel_clock) $panel_mail_msg " > "$PANEL_FIFO" &
     sleep 1;
 done &
