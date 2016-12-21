@@ -27,6 +27,7 @@ PANEL_FONT_ICONS="Font Awesome:size=10.6"
 PANEL_HEIGHT=15
 
 PANEL_FIFO=/tmp/panel-fifo
+TMP_DIR=/tmp/panel_scripts/
 
 MAIL_DIR=~/.mail
 
@@ -201,11 +202,11 @@ panel_network() {
 # Create files in order to track changes in volume over multiple executions.
 # If the volume is changed, the corresponding icon in the bar will extend to a
 # volume bar for a few seconds
-mkdir -p /tmp/panel_scripts/audio
-chmod 700 /tmp/panel_scripts -R
-echo "none" > /tmp/panel_scripts/audio/volume
+mkdir -p $TMP_DIR/audio
+chmod 700 $TMP_DIR -R
+echo "none" > $TMP_DIR/audio/volume
 audio_counter=0
-echo "0" > /tmp/panel_scripts/audio/counter
+echo "0" > $TMP_DIR/audio/counter
 panel_audio() {
     # Mute? Possible values on/off
     sound_card0=$(cat /proc/asound/cards | awk '/^ 0 / {print $4}')
@@ -257,20 +258,20 @@ panel_audio() {
 
     # Print a volume bar for $max_count seconds till the last change in volume
     # before truncating it to an icon again
-    audio_volume_last=$(cat /tmp/panel_scripts/audio/volume)
+    audio_volume_last=$(cat $TMP_DIR/audio/volume)
     max_count=3
     if [ "$audio_volume" = "$audio_volume_last" ]; then
-        audio_counter=$(cat /tmp/panel_scripts/audio/counter)
+        audio_counter=$(cat $TMP_DIR/audio/counter)
 
         if [ $audio_counter -lt $max_count ]; then
             audio_counter=$((audio_counter+1))
-            echo $audio_counter > /tmp/panel_scripts/audio/counter
+            echo $audio_counter > $TMP_DIR/audio/counter
         fi
     else
         # Reset counter
-        echo 0 > /tmp/panel_scripts/audio/counter
+        echo 0 > $TMP_DIR/audio/counter
         # Save new audio volume
-        echo "$audio_volume" > /tmp/panel_scripts/audio/volume
+        echo "$audio_volume" > $TMP_DIR/audio/volume
     fi
     # Print the volume bar
     if [ $audio_counter -lt $max_count ]; then
