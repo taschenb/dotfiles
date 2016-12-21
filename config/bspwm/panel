@@ -6,6 +6,7 @@
 # * Music: mpd/mopidy and mpc
 # * Mails: maildir (default ~/.mail)
 # * Volumebar: needs some customization based on the hardware
+# * WiFi: iwconfig to determine the ESSID
 
 # Recommended:
 # * Font: Meslo LG S DZ patched (https://github.com/ryanoasis/nerd-fonts)
@@ -114,6 +115,7 @@ panel_battery() {
     fi
 }
 
+
 # Display date and time
 panel_clock() {
     echo "$COLOR_CLOCK $ICON_DIVIDER $ICON_CLOCK $(date "+%a %d, %T")"
@@ -171,17 +173,16 @@ panel_tor() {
     fi
 }
 
-panel_vpn() {
-    echo ""
-}
 
-# Check if ethernet/wifi is connected
+# Display the default network interface
+# Ethernet: Just display a icon here.
+# WiFi: - Display truncated ESSID, if iwconfig is installed.
+#       - Hint the connection quality by color.
+# VPN: - For a tun/tap device, check which configuration is active by going
+#        through all /etc/openvpn/*.conf files and their corresponding
+#        openvpn@*.service systemd services.
+#      - Show the first 3 characters of the active *.conf filename
 panel_network() {
-    wifi_quality=$(cat /proc/net/wireless | awk 'END { print $3 }' | \
-        sed 's/\.$//')
-    # Fix percentage
-    wifi_quality=$(($wifi_quality/7*10))
-
     default_interface=$(ip route | awk 'NR==1 { print $5}')
 
     case $default_interface in
@@ -189,6 +190,11 @@ panel_network() {
             echo "$COLOR_NETWORK_ETHERNET $ICON_DIVIDER $ICON_ETHERNET"
             ;;
         wlan* | wlp*)
+            wifi_quality=$(cat /proc/net/wireless | awk 'END { print $3 }' | \
+                sed 's/\.$//')
+            # Fix percentage
+            wifi_quality=$(($wifi_quality/7*10))
+
             if [ $wifi_quality != 0 ]; then
                 if [ $wifi_quality -lt 35 ]; then
                     wifi_color="$COLOR_NETWORK_WIFI_BAD"
@@ -198,11 +204,32 @@ panel_network() {
                     wifi_color="$COLOR_NETWORK_WIFI_GOOD"
                 fi
 
+                if which iwconfig > /dev/null 2>&1; then
+                    essid_max_length=12
+
+                    essid=$(iwconfig 2>/dev/null | sed -n '1p' | cut -f2 -d\")
+                    essid=${essid::${essid_max_length}}
+                fi
+
                 echo "$wifi_color $ICON_DIVIDER $ICON_WIFI $essid"
             fi
             ;;
+        tun* | tap*)
+            for config in /etc/openvpn/*.conf; do
+                connection_name=$(basename $config .conf)
+
+                service="openvpn@$connection_name.service"
+
+                if [ $(systemctl is-active $service) = "active" ]; then
+                    server=${connection_name::3}
+                fi
+            done
+
+            echo "$COLOR_VPN $ICON_DIVIDER $ICON_VPN $server"
+            ;;
     esac
 }
+
 
 # Get volume level and track if headphone is plugged in.
 # The following is working for a thinkpad with a dockingstation and also
@@ -312,6 +339,7 @@ panel_audio() {
     fi
 
 }
+
 
 # Combine everything
 # Set to > 5 to initiate a full refresh of all parts
