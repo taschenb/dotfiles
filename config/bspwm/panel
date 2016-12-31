@@ -179,8 +179,8 @@ panel_tor() {
 # WiFi: - Display truncated ESSID, if iwconfig is installed.
 #       - Hint the connection quality by color.
 # VPN: - For a tun/tap device, check which configuration is active by going
-#        through all /etc/openvpn/*.conf files and their corresponding
-#        openvpn@*.service systemd services.
+#        through all /etc/openvpn/client/*.conf files and their corresponding
+#        openvpn-cleint@*.service systemd services.
 #      - Show the first 3 characters of the active *.conf filename
 panel_network() {
     default_interface=$(ip route | awk 'NR==1 { print $5}')
@@ -215,10 +215,10 @@ panel_network() {
             fi
             ;;
         tun* | tap*)
-            for config in /etc/openvpn/*.conf; do
+            for config in /etc/openvpn/client/*.conf; do
                 connection_name=$(basename $config .conf)
 
-                service="openvpn@$connection_name.service"
+                service="openvpn-client@$connection_name.service"
 
                 if [ $(systemctl is-active $service) = "active" ]; then
                     server=${connection_name::3}
@@ -362,7 +362,7 @@ while true; do
     fi
 
     # Output everything every second
-    echo "S $(panel_tor) $(panel_audio)  $panel_battery_msg $panel_network_msg \
+    echo "S $(panel_xmpp) $(panel_tor) $(panel_audio)  $panel_battery_msg $panel_network_msg \
 $(panel_clock) $panel_mail_msg " > "$PANEL_FIFO" &
     sleep 1;
 done &
