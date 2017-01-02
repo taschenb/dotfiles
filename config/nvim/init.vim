@@ -327,13 +327,8 @@ com! DiffSaved call s:DiffWithSaved()
 
 " NumberToggle ------------------------------------------------------{{{
 function! NumberToggle()
-    if &relativenumber
-        set norelativenumber
-        set nonumber
-    else
-        set relativenumber
-        set number
-    endif
+    set relativenumber!
+    set number!
 endfunction
 " -------------------------------------------------------------------}}}
 
