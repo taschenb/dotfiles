@@ -591,9 +591,8 @@ nmap cia cIa
 " -------------------------------------------------------------------}}}
 
 " Ultisnips ---------------------------------------------------------{{{
-" set ulttisnips to c-j
-let g:UltiSnipsExpandTrigger       = "<c-k>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-k>"
+let g:UltiSnipsExpandTrigger       = "<tab>"
+let g:UltiSnipsJumpForwardTrigger  = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-r>"
 let g:UltiSnipsListSnippets        = "<c-b>"
 " -------------------------------------------------------------------}}}
