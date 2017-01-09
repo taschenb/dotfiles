@@ -7,6 +7,7 @@
 # * Mails: maildir (default ~/.mail)
 # * Volumebar: needs some customization based on the hardware
 # * WiFi: iwconfig to determine the ESSID
+# * XMPP: Profanity with a custom plugins
 
 # Recommended:
 # * Font: Meslo LG S DZ patched (https://github.com/ryanoasis/nerd-fonts)
@@ -35,7 +36,7 @@ MAIL_DIR=~/.mail
 COLOR_FILE=~/.config/bspwm/panel_colors
 ICON_FILE=~/.config/bspwm/panel_icons
 
-MPD_HOSTS=(localhost raspberry)
+MPD_HOSTS=(localhost)
 ########################################################################
 
 
@@ -134,6 +135,17 @@ panel_mail() {
         mail_icon="$ICON_MAIL_NEW"
     fi
     echo "$COLOR_MAIL $ICON_DIVIDER $mail_icon $mail_new/$mail_tot"
+}
+
+
+# Check for new XMPP messages
+# Using profanity as client, a simple plugin is writing into a file when a new
+# message arrives. It also deletes the entries if they become irrelevant.
+# Whenever this file is not empty, a message is still waiting
+panel_xmpp() {
+    if [ -s $TMP_DIR/profanity ]; then
+        echo "$COLOR_XMPP $ICON_DIVIDER $ICON_XMPP"
+    fi
 }
 
 
