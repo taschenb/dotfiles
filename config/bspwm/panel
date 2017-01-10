@@ -12,13 +12,6 @@
 # Recommended:
 # * Font: Meslo LG S DZ patched (https://github.com/ryanoasis/nerd-fonts)
 
-# Caution:
-# * This script isn't very portable yet. If you want to use it, you need
-#   to adjust some stuff for your hardware.
-# * Be aware, that it is also not optimized in any way and has quite a few
-#   events/s going on, that might affect your battery.
-
-
 ########################################################################
 #                           Configuration
 ########################################################################

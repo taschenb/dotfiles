@@ -142,16 +142,7 @@ super + F5
     ~/.config/bspwm/bspwmrc
 # ------------------------------------------------------------------}}}
 
-
 # Media-keys -------------------------------------------------------{{{
-# Mute: Coreboot is handling this for me. 
-# Using a USB-Soundcard the numbering changes if the card is 
-# connected when you boot the machine, taking the 0 slot.
-# I don't toggle mute when connected, but I want to be able
-# to mute my speaker if disconnected.
-# XF86AudioMute
-    # pactl set-sink-mute 0 toggle || pactl set-sink-mute 1 toggle
-
 # Increase volume
 XF86AudioRaiseVolume
     ponymix increase 5
@@ -171,13 +162,4 @@ XF86AudioNext
     mpc next
 XF86AudioPrev
     mpc prev
-# ------------------------------------------------------------------}}}
-
-# Brightness -------------------------------------------------------{{{
-# Coreboot is handling the brightness for me
-
-# XF86MonBrightnessUp
-#     xbacklight -inc 5
-# XF86MonBrightnessDown
-#     xbacklight -dec 5
 # ------------------------------------------------------------------}}}
