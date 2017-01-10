@@ -36,11 +36,11 @@ MAIL_DIR=~/.mail
 COLOR_FILE=~/.config/bspwm/panel_colors
 ICON_FILE=~/.config/bspwm/panel_icons
 
-MPD_HOSTS=(localhost)
+MPD_HOSTS="localhost 192.168.1.20"
 ########################################################################
 
 
-if [ $(pgrep -cx panel) -gt 1 ] ; then
+if [ "$(pgrep -cx panel)" -gt 1 ] ; then
     printf "%s\n" "The panel is already running." >&2
     exit 1
 fi
@@ -75,9 +75,9 @@ panel_battery() {
         bat_perc=$(cat /sys/class/power_supply/BAT0/capacity)
 
         # Set the color of the battery icon accoring to its current percentage
-        if [ $bat_perc -gt 50 ]; then
+        if [ "$bat_perc" -gt 50 ]; then
             bat_color="$COLOR_BATTERY_GREEN"
-        elif [ $bat_perc -lt 15 ]; then
+        elif [ "$bat_perc" -lt 15 ]; then
             bat_color="$COLOR_BATTERY_RED"
         else
             bat_color="$COLOR_BATTERY_ORANGE"
@@ -93,16 +93,16 @@ panel_battery() {
                 ;;
             "Discharging")
                 # Shutdown, if battery is low
-                if [ $bat_perc -lt $BAT_SHUTDOWN_PERC ]; then
-                    $(/usr/bin/poweroff)
+                if [ "$bat_perc" -lt "$BAT_SHUTDOWN_PERC" ]; then
+                    /usr/bin/poweroff
                     bat_icon="$ICON_BATTERY_EMPTY"
-                elif [ $bat_perc -lt 9 ]; then
+                elif [ "$bat_perc" -lt 9 ]; then
                     bat_icon="$ICON_BATTERY_EMPTY"
-                elif [ $bat_perc -lt 26 ]; then
+                elif [ "$bat_perc" -lt 26 ]; then
                     bat_icon="$ICON_BATTERY_LOW"
-                elif [ $bat_perc -lt 60 ]; then
+                elif [ "$bat_perc" -lt 60 ]; then
                     bat_icon="$ICON_BATTERY_MED"
-                elif [ $bat_perc -lt 85 ]; then
+                elif [ "$bat_perc" -lt 85 ]; then
                     bat_icon="$ICON_BATTERY_HIGH"
                 else
                     bat_icon="$ICON_BATTERY_FULL"
@@ -129,7 +129,7 @@ panel_mail() {
     mail_new=$(find $MAIL_DIR/*/I*/new -type f | wc -l)
     mail_cur=$(find $MAIL_DIR/*/I*/cur -type f | wc -l)
     mail_tot=$((mail_new+mail_cur))
-    if [ $mail_new -eq 0 ];then
+    if [ "$mail_new" -eq 0 ];then
         mail_icon="$ICON_MAIL_NO_NEW"
     else
         mail_icon="$ICON_MAIL_NEW"
@@ -157,19 +157,19 @@ panel_xmpp() {
 # since all could be resumed from this machine.
 # Requires mpc
 panel_mpd() {
-    for host in ${MPD_HOSTS[@]}; do
-        mpd_status=$(mpc -h $host status 2>&1 | awk 'NR==2 { print $1}')
+    for host in $MPD_HOSTS; do
+        mpd_status=$(mpc -h "$host" status 2>&1 | awk 'NR==2 { print $1}')
 
         case "$mpd_status" in
             "[paused]")
                 mpd_line="$COLOR_MPD_PAUSE$ICON_MUSIC $ICON_MUSIC_PAUSE  $(mpc -h $host current)" ;;
             "[playing]")
-                mpd_line="$COLOR_MPD_PLAY$ICON_MUSIC  $(mpc -h $host current)"
+                mpd_line="$COLOR_MPD_PLAY$ICON_MUSIC  $(mpc -h "$host" current)"
                 break
                 ;;
         esac
     done
-    echo $mpd_line
+    echo "$mpd_line"
 }
 
 
@@ -202,15 +202,16 @@ panel_network() {
             echo "$COLOR_NETWORK_ETHERNET $ICON_DIVIDER $ICON_ETHERNET"
             ;;
         wlan* | wlp*)
-            wifi_quality=$(cat /proc/net/wireless | awk 'END { print $3 }' | \
+            wifi_quality=$(awk 'END { print $3 }' < /proc/net/wireless | \
                 sed 's/\.$//')
             # Fix percentage
-            wifi_quality=$(($wifi_quality/7*10))
+            wifi_quality=$(awk -v wifi_quality="$wifi_quality" \
+                'BEGIN { printf "%0.f", (wifi_quality/0.7) }')
 
-            if [ $wifi_quality != 0 ]; then
-                if [ $wifi_quality -lt 35 ]; then
+            if [ "$wifi_quality" != 0 ]; then
+                if [ "$wifi_quality" -lt 35 ]; then
                     wifi_color="$COLOR_NETWORK_WIFI_BAD"
-                elif [ $wifi_quality -lt 70 ]; then
+                elif [ "$wifi_quality" -lt 70 ]; then
                     wifi_color="$COLOR_NETWORK_WIFI_OK"
                 else
                     wifi_color="$COLOR_NETWORK_WIFI_GOOD"
@@ -219,8 +220,8 @@ panel_network() {
                 if which iwconfig > /dev/null 2>&1; then
                     essid_max_length=12
 
-                    essid=$(iwconfig 2>/dev/null | sed -n '1p' | cut -f2 -d\")
-                    essid=${essid::${essid_max_length}}
+                    essid=$(iwconfig 2>/dev/null | sed -n '1p' | cut -f2 -d\" | \
+                        cut -c1-${essid_max_length})
                 fi
 
                 echo "$wifi_color $ICON_DIVIDER $ICON_WIFI $essid"
@@ -228,12 +229,13 @@ panel_network() {
             ;;
         tun* | tap*)
             for config in /etc/openvpn/client/*.conf; do
-                connection_name=$(basename $config .conf)
+                connection_name=$(basename "$config" .conf)
 
                 service="openvpn-client@$connection_name.service"
 
-                if [ $(systemctl is-active $service) = "active" ]; then
-                    server=${connection_name::3}
+                if [ "$(systemctl is-active "$service")" = "active" ]; then
+                    server_max_length=3
+                    server=$(echo "$connection_name" | cut -c1-$server_max_length)
                 fi
             done
 
@@ -257,8 +259,8 @@ audio_counter=0
 echo "0" > $TMP_DIR/audio/counter
 panel_audio() {
     # Mute? Possible values on/off
-    sound_card0=$(cat /proc/asound/cards | awk '/^ 0 / {print $4}')
-    sound_card1=$(cat /proc/asound/cards | awk '/^ 1 / {print $4}')
+    sound_card0=$(awk '/^ 0 / {print $4}' < /proc/asound/cards)
+    sound_card1=$(awk '/^ 1 / {print $4}' < /proc/asound/cards)
 
     # Detect which card to use. Depending on whether or not the USB card was
     # present at boot time, the order changes
@@ -288,9 +290,9 @@ panel_audio() {
     if [ "$headphone" = on ] || [ "$headphone_docking" = on ]; then
         icon="$ICON_HEADPHONES"
     else
-        if [ $audio_volume -lt 25 ]; then
+        if [ "$audio_volume" -lt 25 ]; then
             icon="$ICON_VOLUME_LOW"
-        elif [ $audio_volume -lt 51 ]; then
+        elif [ "$audio_volume" -lt 51 ]; then
             icon="$ICON_VOLUME_MED"
         else
             icon="$ICON_VOLUME_HIGH"
@@ -311,7 +313,7 @@ panel_audio() {
     if [ "$audio_volume" = "$audio_volume_last" ]; then
         audio_counter=$(cat $TMP_DIR/audio/counter)
 
-        if [ $audio_counter -lt $max_count ]; then
+        if [ "$audio_counter" -lt $max_count ]; then
             audio_counter=$((audio_counter+1))
             echo $audio_counter > $TMP_DIR/audio/counter
         fi
@@ -380,7 +382,7 @@ $(panel_clock) $panel_mail_msg " > "$PANEL_FIFO" &
 done &
 
 # Pipe everything through panel_bar to lemonbar
-cat "$PANEL_FIFO" | ~/.config/bspwm/panel_bar | lemonbar -d -g "$PANEL_GEOMETRY" \
+~/.config/bspwm/panel_bar < "$PANEL_FIFO" | lemonbar -d -g "$PANEL_GEOMETRY" \
     -f "$PANEL_FONT_ICONS" -f "$PANEL_FONT_FAMILY" -F "$COLOR_FOREGROUND" \
     -B "$COLOR_BACKGROUND" &
 
