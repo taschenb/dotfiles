@@ -145,13 +145,11 @@ super + F5
 # Media-keys -------------------------------------------------------{{{
 # Increase volume
 XF86AudioRaiseVolume
-    ponymix increase 5
-    # pactl set-sink-volume 0 +5%
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
 
 # Decrease volume
 XF86AudioLowerVolume
-    ponymix decrease 5
-    # pactl set-sink-volume 0 -5%
+    pactl set-sink-volume @DEFAULT_SINK@ -5%
 
 # MPC commands for play/pause/stop/next/prev keys
 XF86AudioPlay
