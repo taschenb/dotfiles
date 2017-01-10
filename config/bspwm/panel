@@ -258,52 +258,36 @@ echo "none" > $TMP_DIR/audio/volume
 audio_counter=0
 echo "0" > $TMP_DIR/audio/counter
 panel_audio() {
-    # Mute? Possible values on/off
-    sound_card0=$(awk '/^ 0 / {print $4}' < /proc/asound/cards)
-    sound_card1=$(awk '/^ 1 / {print $4}' < /proc/asound/cards)
+    default_sink_name=$(pacmd stat | awk -F": " '/^Default sink name: /{print $2}')
 
-    # Detect which card to use. Depending on whether or not the USB card was
-    # present at boot time, the order changes
-    if [ "$sound_card0" = HDA-Intel ]; then
-        sound_card_intel=0
-    elif [ "$sound_card1" = HDA-Intel ]; then
-        sound_card_intel=1
-    # Since no intel soundcard is being found, we probably are on another
-    # system. Take the first card here
+    case $default_sink_name in
+        *usb*)
+            audio_card_icon=" $ICON_USB"
+            ;;
+        tunnel-sink*)
+            audio_card_icon=" $ICON_PA_SERVER"
+            ;;
+        *)
+            headphone_plugged=$(pacmd list-sinks | \
+                grep "active port: <analog-output-headphones>")
+            if [ -n "$headphone_plugged" ]; then
+                audio_card_icon=" $ICON_HEADPHONES"
+            else
+                audio_card_icon=""
+            fi
+            ;;
+    esac
+
+    audio_volume=$(pacmd list-sinks | \
+        awk '/^\s+name: /{indefault = $2 == "<'"$default_sink_name"'>"}
+        /^\s+volume: / && indefault {print $5; exit}' | \
+        awk -F"%" '{print $1}')
+    if [ "$audio_volume" -lt 15 ]; then
+        speaker_icon="$ICON_VOLUME_LOW"
+    elif [ "$audio_volume" -lt 51 ]; then
+        speaker_icon="$ICON_VOLUME_MED"
     else
-        sound_card_intel=0
-    fi
-
-    audio_status=$(amixer -c $sound_card_intel get Master | \
-        awk 'END { gsub(/[\[\]]/, ""); print $6 }')
-
-    # Current volume percentage
-    audio_volume=$(amixer -c $sound_card_intel get Master | awk 'END { gsub(/[\[\]%]/, ""); print $4 }')
-    # Detect if headphone is plugged in either the notebook or dockingstation
-    headphone=$(amixer -c $sound_card_intel contents | \
-        awk -F "=" '/Headphone Jack/ { getline;getline; print $2 }' | \
-        sed -n '1p')
-    headphone_docking=$(amixer -c $sound_card_intel contents | \
-        awk -F "=" '/Headphone Jack/ { getline;getline; print $2 }' | \
-        sed -n '2p')
-
-    if [ "$headphone" = on ] || [ "$headphone_docking" = on ]; then
-        icon="$ICON_HEADPHONES"
-    else
-        if [ "$audio_volume" -lt 25 ]; then
-            icon="$ICON_VOLUME_LOW"
-        elif [ "$audio_volume" -lt 51 ]; then
-            icon="$ICON_VOLUME_MED"
-        else
-            icon="$ICON_VOLUME_HIGH"
-        fi
-    fi
-
-    # If the usb card is connected add a usb icon
-    if [ "$sound_card0" = USB-Audio ] || [ "$sound_card1" = USB-Audio ]; then
-        icon="$ICON_VOLUME_HIGH "
-        # Manually set audio_muted to on if usb is present
-        audio_status="on"
+        speaker_icon="$ICON_VOLUME_HIGH"
     fi
 
     # Print a volume bar for $max_count seconds till the last change in volume
@@ -323,34 +307,23 @@ panel_audio() {
         # Save new audio volume
         echo "$audio_volume" > $TMP_DIR/audio/volume
     fi
-    # Print the volume bar
+    # Print the volume bar for the max_count duration after a change
     if [ $audio_counter -lt $max_count ]; then
-        if [ "$audio_status" = off ]; then
-            icon="$COLOR_AUDIO_OFF $ICON_DIVIDER $icon "
-        else
-            icon="$COLOR_AUDIO_ON $ICON_DIVIDER $icon "
-        fi
         case $audio_volume in
-            100) echo "$icon" "——————————" ;;
-            [0-9]) echo "$icon" "—$COLOR_AUDIO_LEFT—————————" ;;
-            1*) echo "$icon" "——$COLOR_AUDIO_LEFT————————" ;;
-            2*) echo "$icon" "———$COLOR_AUDIO_LEFT———————" ;;
-            3*) echo "$icon" "————$COLOR_AUDIO_LEFT——————" ;;
-            4*) echo "$icon" "—————$COLOR_AUDIO_LEFT—————" ;;
-            5*) echo "$icon" "——————$COLOR_AUDIO_LEFT————" ;;
-            6*) echo "$icon" "———————$COLOR_AUDIO_LEFT———" ;;
-            7*) echo "$icon" "————————$COLOR_AUDIO_LEFT——" ;;
-            8*) echo "$icon" "—————————$COLOR_AUDIO_LEFT—" ;;
-            9*) echo "$icon" "——————————" ;;
+            100) volume_bar=" ——————————" ;;
+            [0-9]) volume_bar=" —$COLOR_AUDIO_LEFT—————————" ;;
+            1*) volume_bar=" ——$COLOR_AUDIO_LEFT————————" ;;
+            2*) volume_bar=" ———$COLOR_AUDIO_LEFT———————" ;;
+            3*) volume_bar=" ————$COLOR_AUDIO_LEFT——————" ;;
+            4*) volume_bar=" —————$COLOR_AUDIO_LEFT—————" ;;
+            5*) volume_bar=" ——————$COLOR_AUDIO_LEFT————" ;;
+            6*) volume_bar=" ———————$COLOR_AUDIO_LEFT———" ;;
+            7*) volume_bar=" ————————$COLOR_AUDIO_LEFT——" ;;
+            8*) volume_bar=" —————————$COLOR_AUDIO_LEFT—" ;;
+            9*) volume_bar=" ——————————" ;;
         esac
-    # Truncate
-    else
-        if [ "$audio_status" = off ]; then
-            echo "$COLOR_AUDIO_OFF $ICON_DIVIDER $icon"
-        else
-            echo "$COLOR_AUDIO_ON $ICON_DIVIDER $icon"
-        fi
     fi
+    echo "$COLOR_AUDIO_ON $ICON_DIVIDER $speaker_icon$audio_card_icon$volume_bar"
 
 }
 
