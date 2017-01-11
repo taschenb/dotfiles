@@ -135,7 +135,7 @@ super + @button{1-3}
 
 # Use slock as screenlocker
 super + F12
-    slock
+    i3lock
 
 # Reload for new displays
 super + F5
