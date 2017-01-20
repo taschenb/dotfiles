@@ -119,15 +119,17 @@ panel_clock() {
 # Check .mail for new mails
 # This requires a background script downloading mails
 panel_mail() {
-    mail_new=$(find $MAIL_DIR/*/I*/new -type f | wc -l)
-    mail_cur=$(find $MAIL_DIR/*/I*/cur -type f | wc -l)
-    mail_tot=$((mail_new+mail_cur))
-    if [ "$mail_new" -eq 0 ];then
-        mail_icon="$ICON_MAIL_NO_NEW"
-    else
-        mail_icon="$ICON_MAIL_NEW"
+    if [ -d $MAIL_DIR ]; then
+        mail_new=$(find $MAIL_DIR/*/I*/new -type f | wc -l)
+        mail_cur=$(find $MAIL_DIR/*/I*/cur -type f | wc -l)
+        mail_tot=$((mail_new+mail_cur))
+        if [ "$mail_new" -eq 0 ];then
+            mail_icon="$ICON_MAIL_NO_NEW"
+        else
+            mail_icon="$ICON_MAIL_NEW"
+        fi
+        echo "$COLOR_MAIL $ICON_DIVIDER $mail_icon $mail_new/$mail_tot"
     fi
-    echo "$COLOR_MAIL $ICON_DIVIDER $mail_icon $mail_new/$mail_tot"
 }
 
 
@@ -150,19 +152,21 @@ panel_xmpp() {
 # since all could be resumed from this machine.
 # Requires mpc
 panel_mpd() {
-    for host in $MPD_HOSTS; do
-        mpd_status=$(mpc -h "$host" status 2>&1 | awk 'NR==2 { print $1}')
+    if which mpc > /dev/null 2>&1; then
+        for host in $MPD_HOSTS; do
+            mpd_status=$(mpc -h "$host" status 2>&1 | awk 'NR==2 { print $1}')
 
-        case "$mpd_status" in
-            "[paused]")
-                mpd_line="$COLOR_MPD_PAUSE$ICON_MUSIC $ICON_MUSIC_PAUSE  $(mpc -h $host current)" ;;
-            "[playing]")
-                mpd_line="$COLOR_MPD_PLAY$ICON_MUSIC  $(mpc -h "$host" current)"
-                break
-                ;;
-        esac
-    done
-    echo "$mpd_line"
+            case "$mpd_status" in
+                "[paused]")
+                    mpd_line="$COLOR_MPD_PAUSE$ICON_MUSIC $ICON_MUSIC_PAUSE  $(mpc -h $host current)" ;;
+                "[playing]")
+                    mpd_line="$COLOR_MPD_PLAY$ICON_MUSIC  $(mpc -h "$host" current)"
+                    break
+                    ;;
+            esac
+        done
+        echo "$mpd_line"
+    fi
 }
 
 
