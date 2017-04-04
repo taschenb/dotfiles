@@ -68,6 +68,10 @@ bspc config remove_unplugged_monitors true
 # xprop | grep WM_CLASS
 bspc rule -a mpv state=floating sticky=on focus=off
 bspc rule -a "Tor Browser" state=floating
+# Not sure why this is necessary
+bspc rule -a Zathura state=tiled
+bspc rule -a libreoffice state=tiled
+
 
 # Panel
 killall panel
