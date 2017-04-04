@@ -219,6 +219,20 @@ tmx-mails(){
     fi
 }
 
+tmx-mopidy(){
+    SESSION_NAME=mopidy
+
+    if ! tmux attach -t "$SESSION_NAME"; then
+
+        echo "new mopidy-session started"
+
+        tmux new-session -d -s $SESSION_NAME
+
+        tmux send-keys 'mopidy' 'C-m'
+    fi
+}
+
+
 # Get weather forecast (with frontend for wego https://github.com/schachmat/wego)
 # Usage: weather CITY(default: Munich)
 weather() {
