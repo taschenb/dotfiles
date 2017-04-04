@@ -136,6 +136,12 @@ check() {
     fi
 }
 
+# nmap all systems in the current lan
+lanmap() {
+    lan=$(ip route | sed -n '2p' | awk '{ print $1 }')
+    nmap $lan
+}
+
 # Pager using vim
 vmore() {
     vim -c 'set laststatus=0 readonly nomodifiable' \
