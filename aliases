@@ -13,6 +13,8 @@ alias df='df --human-readable'
 alias dmesg='dmesg -T'
 # Human readable (MB/GB/...) and produce a grand total
 alias du='du --human-readable --total'
+# Start as terminal rather than as gui
+alias emacs='TERM=screen-256color emacs -nw'
 # Add color
 alias grep='grep --color=auto'
 # Generate pdf and continously update preview

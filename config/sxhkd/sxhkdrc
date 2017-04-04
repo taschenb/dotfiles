@@ -1,7 +1,7 @@
 # WM independent hotkeys -------------------------------------------{{{
 # Terminal emulator
 super + Return
-    xterm
+    st -f "MesloLGSDZ Nerd Font:size=9.5"
 
 # Program launcher
 super + {space,r}
