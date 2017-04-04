@@ -142,6 +142,10 @@ super + F5
     ~/.config/bspwm/bspwmrc
 # ------------------------------------------------------------------}}}
 
+# Play a url in the PRIMARY
+super + ctrl + m
+    mpv --geometry=35%--0++15 $(xclip -o)
+
 # Media-keys -------------------------------------------------------{{{
 # Increase volume
 XF86AudioRaiseVolume
