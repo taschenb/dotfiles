@@ -119,15 +119,16 @@ panel_clock() {
 # Check .mail for new mails
 # This requires a background script downloading mails
 panel_mail() {
-    if [ -d $MAIL_DIR ]; then
-        mail_new=$(find $MAIL_DIR/*/I*/new -type f | wc -l)
-        mail_cur=$(find $MAIL_DIR/*/I*/cur -type f | wc -l)
-        mail_tot=$((mail_new+mail_cur))
+    if which notmuch > /dev/null 2>&1; then
+        mail_new=$(notmuch count -- tag:unread and tag:new)
+        mail_tot=$(notmuch count)
+
         if [ "$mail_new" -eq 0 ];then
             mail_icon="$ICON_MAIL_NO_NEW"
         else
             mail_icon="$ICON_MAIL_NEW"
         fi
+
         echo "$COLOR_MAIL $ICON_DIVIDER $mail_icon $mail_new/$mail_tot"
     fi
 }
