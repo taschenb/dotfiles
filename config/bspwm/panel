@@ -347,7 +347,7 @@ while true; do
     fi
 
     # Output everything every second
-    echo "S $(panel_xmpp) $(panel_tor) $(panel_audio)  $panel_battery_msg $panel_network_msg \
+    echo "S $(panel_xmpp) $(panel_tor) $(panel_audio) $panel_battery_msg $panel_network_msg \
 $(panel_clock) $panel_mail_msg " > "$PANEL_FIFO" &
     sleep 1;
 done &
