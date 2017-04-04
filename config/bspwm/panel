@@ -16,7 +16,7 @@
 #                           Configuration
 ########################################################################
 # Fonts used
-PANEL_FONT_FAMILY="Meslo LG S DZ for Powerline:size=9"
+PANEL_FONT_FAMILY="MesloLGSDZ Nerd Font:size=9"
 PANEL_FONT_ICONS="Font Awesome:size=10.6"
 
 PANEL_HEIGHT=15
