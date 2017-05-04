@@ -164,4 +164,8 @@ XF86AudioNext
     mpc next
 XF86AudioPrev
     mpc prev
+
+# Select mpv instance
+super + v
+    xdo activate -N mpv
 # ------------------------------------------------------------------}}}
