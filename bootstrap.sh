@@ -30,26 +30,32 @@ backup_dir=~/.dotfiles_old
 case "$1" in
     full)
         install=$set_full
-        git config --global init.templatedir '~/.git_template'
+        git config --global init.templatedir "$HOME/git_template"
         ;;
     basic)
         install=$set_basic;;
     git_template)
         install=$set_git_template
-        git config --global init.templatedir '~/.git_template'
+        git config --global init.templatedir "$HOME/.git_template"
         ;;
     bspwm)
         install=$set_bspwm;;
     awesome)
         install=$set_awesome;;
     *)
-        echo -e "Usage: bootstrap.sh <set>\n"
-        echo -e "Available sets:\n"
-        echo -e "full:\n$set_full\n"
-        echo -e "basic:\n$set_basic\n"
-        echo -e "git_template:\nSetup git templates for ctags\n"
-        echo -e "bspwm:\nSetup bspwm and lemonbar-xft\n"
-        echo -e "awesome:\nSetup awesome"
+        printf "%s\n" "Usage:bootstrap.sh <set>"
+        printf "%s\n%s\n %s\n%s\n %s\n%s\n %s\n%s\n %s\n%s\n %s\n" \
+               "Available sets:" \
+               "full:" \
+               "$set_full" \
+               "basic:" \
+               "$set_basic" \
+               "git_template:" \
+               "Setup git templates for ctags" \
+               "bspwm" \
+               "Setup bspwm and lembonar-xft" \
+               "awesome" \
+               "Setup awesome"
         exit 1;;
 esac
 
