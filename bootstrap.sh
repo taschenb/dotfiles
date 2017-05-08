@@ -24,7 +24,7 @@ set_awesome="config/awesome/"
 # Use the directory containing this script as absolute path for the symlinks
 dotfile_dir=$(dirname $(readlink -f "$0"))
 # Backup existing dotfiles to this directory before replacing them
-backup_dir=~/.dotfiles_old
+backup_dir=~/.dotfiles_backup
 
 
 case "$1" in
