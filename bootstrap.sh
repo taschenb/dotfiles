@@ -41,7 +41,7 @@ case "$1" in
     bspwm)
         install=$set_bspwm;;
     awesome)
-        install=$awesome;;
+        install=$set_awesome;;
     *)
         echo -e "Usage: bootstrap.sh <set>\n"
         echo -e "Available sets:\n"
