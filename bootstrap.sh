@@ -25,6 +25,23 @@ installed_files="$backup_dir/.installed_files"
 # Track all created directories
 installed_dirs="$backup_dir/.installed_dirs"
 
+usage() {
+        printf "%s\n" "Usage (install): bootstrap.sh <set>"
+        printf "%s\n\n" "Usage (uninstall): bootstrap.sh uninstall"
+        printf "%s\n%s\n %s\n%s\n %s\n%s\n %s\n%s\n %s\n%s\n %s\n" \
+               "Available sets:" \
+               "full:" \
+               "$set_full" \
+               "basic:" \
+               "$set_basic" \
+               "git_template:" \
+               "Setup git templates for ctags" \
+               "bspwm" \
+               "Setup bspwm and lembonar-xft" \
+               "awesome" \
+               "Setup awesome"
+        exit 1
+}
 
 install () {
     set_to_install=$1
@@ -126,19 +143,5 @@ case "$1" in
     uninstall)
         uninstall;;
     *)
-        printf "%s\n" "Usage (install): bootstrap.sh <set>"
-        printf "%s\n\n" "Usage (uninstall): bootstrap.sh uninstall"
-        printf "%s\n%s\n %s\n%s\n %s\n%s\n %s\n%s\n %s\n%s\n %s\n" \
-               "Available sets:" \
-               "full:" \
-               "$set_full" \
-               "basic:" \
-               "$set_basic" \
-               "git_template:" \
-               "Setup git templates for ctags" \
-               "bspwm" \
-               "Setup bspwm and lembonar-xft" \
-               "awesome" \
-               "Setup awesome"
-        exit 1;;
+        usage;;
 esac
