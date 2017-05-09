@@ -166,6 +166,12 @@ extract() {
         *.zip)       unzip $1       ;;
         *.Z)         uncompress $1  ;;
         *.7z)        7z x $1        ;;
+        *.iso)
+            destination_dir="$(basename ${1%.*})"
+            echo $destination_dir
+            mkdir "$destination_dir"
+            7z x -o"$destination_dir" $1
+            ;;
         *)     echo "'$1' cannot be extracted via extract()" ;;
          esac
      else
