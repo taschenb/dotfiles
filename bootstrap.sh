@@ -1,26 +1,20 @@
 #! /bin/sh
-
 # Create symlinks to the dotfiles in this directory based on a specific set.
 # Usage (install): ./bootstrap.sh <set>
 # Usage (uninstall): ./bootstrap.sh uninstall
 
-
-# Sets:
-
-# Smallest setup to work with
+# Available sets:
+# basic: Smallest setup to work with
 set_basic="zshrc tmux.conf shell_prompt.sh aliases vim/vimrc"
-
-# Typicall full workstation, not including any window manager
+# full: Typicall full workstation, not including any window manager
 set_full="bashrc zshrc tmux.conf shell_prompt.sh aliases vim/vimrc \
 config/nvim/init.vim latexmkrc git_template"
-
-# Git templates to generate ctag files automatically
+# git_template: Git templates to generate ctag files automatically
 set_git_template="git_template"
-
-# WM
+# bspwm: WM settings
 set_bspwm="config/bspwm/ config/sxhkd"
+# awesome: WM settings
 set_awesome="config/awesome/"
-
 
 # Use the directory containing this script as absolute path for the symlinks
 dotfile_dir=$(dirname $(readlink -f "$0"))
@@ -114,7 +108,6 @@ uninstall() {
     fi
 }
 
-
 case "$1" in
     full)
         install "$set_full"
@@ -131,7 +124,7 @@ case "$1" in
     awesome)
         install "$set_awesome";;
     uninstall)
-       uninstall;;
+        uninstall;;
     *)
         printf "%s\n" "Usage (install): bootstrap.sh <set>"
         printf "%s\n\n" "Usage (uninstall): bootstrap.sh uninstall"
