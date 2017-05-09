@@ -151,6 +151,10 @@ vmore() {
 }
 
 # Extract archive
+# For zips check if the archive contains more than one element on the root
+# directory. If so extract in a separate directory. Especially zips are
+# sometimes packed without a folder inside to hold everything. So extracting
+# leads to an unwanted mess.
 extract() {
     if [ -f $1 ] ; then
       case $1 in
@@ -163,7 +167,20 @@ extract() {
         *.tar)       tar xf $1      ;;
         *.tbz2)      tar xjf $1     ;;
         *.tgz)       tar xzf $1     ;;
-        *.zip)       unzip $1       ;;
+        *.zip)
+            content=$(unzip -Z -1 $1)
+            first_entry=$(echo $content | sed -n '1p')
+            nr_root_files=$(echo $content | grep -cv $first_entry)
+            if [ "$nr_root_files" -gt 0 ]; then
+                echo "Multiple files in root directory."
+                echo "Creating folder to extract to..."
+                destination_dir="$(basename ${1%.*})"
+                mkdir "$destination_dir"
+            else
+                destination_dir="."
+            fi
+            unzip -d "$destination_dir" $1
+            ;;
         *.Z)         uncompress $1  ;;
         *.7z)        7z x $1        ;;
         *.iso)
