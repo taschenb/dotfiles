@@ -402,15 +402,6 @@ map <Leader><tab> %
 setlocal mouse=v
 " -------------------------------------------------------------------}}}
 
-" Move Blocks -------------------------------------------------------{{{
-nnoremap <Down> :m .+1<CR>==
-nnoremap <Up> :m .-2<CR>==
-inoremap <Down> <Esc>:m .+1<CR>==gi
-inoremap <Up> <Esc>:m .-2<CR>==gi
-vnoremap <Down> :m '>+1<CR>gv=gv
-vnoremap <Up> :m '<-2<CR>gv=gv
-" -------------------------------------------------------------------}}}
-
 " Move Lines --------------------------------------------------------{{{
 " Move rows instead of lines for wrapped lines
 nnoremap j gj
