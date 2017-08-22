@@ -20,7 +20,7 @@ alias grep='grep --color=auto'
 # Generate pdf and continously update preview
 alias latexmk='latexmk -pdf -pvc'
 # Add color, show hidden, and list directories first, human readable(MB/GB/...)
-alias ls='ls --color=auto --almost-all --group-directories-first --human-readable'
+alias ls='ls --color=auto --group-directories-first --human-readable'
 # Prettier and more readable output with columns
 alias mount='mount | column -t'
 # Launch mpv as small window in the top right corner to do something
