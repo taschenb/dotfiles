@@ -128,7 +128,7 @@ uninstall() {
 case "$1" in
     full)
         install "$set_full"
-        git config --global init.templatedir "$HOME/git_template"
+        git config --global init.templatedir "$HOME/.git_template"
         ;;
     basic)
         install "$set_basic";;
