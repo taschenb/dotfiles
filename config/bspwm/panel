@@ -4,7 +4,7 @@
 # * Lemonbar with XFT support (https://github.com/krypt-n/bar)
 # * Font: Awesome font for icons (http://fortawesome.github.io/Font-Awesome/)
 # * Music: mpd/mopidy and mpc
-# * Mails: maildir (default ~/.mail)
+# * Mails: notmuch
 # * Volumebar: needs some customization based on the hardware
 # * WiFi: iwconfig to determine the ESSID
 # * XMPP: Profanity with a custom plugins
@@ -120,7 +120,7 @@ panel_clock() {
 # This requires a background script downloading mails
 panel_mail() {
     if which notmuch > /dev/null 2>&1; then
-        mail_new=$(notmuch count -- tag:unread and tag:new)
+        mail_new=$(notmuch count -- tag:unread)
         mail_tot=$(notmuch count)
 
         if [ "$mail_new" -eq 0 ];then
