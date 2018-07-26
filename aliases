@@ -62,7 +62,7 @@ alias .....='cd ../../../..'
 # List all files in a long list and with colors
 alias ll='ls -la --color=auto'
 # Get new mails and index them
-alias mailnew="mbsync -q --all ; notmuch new"
+alias mailnew="DISPLAY= mbsync -q --all ; notmuch new"
 # Mount an iso
 alias mountiso="sudo mount -t iso9660 -o loop"
 # List connections
