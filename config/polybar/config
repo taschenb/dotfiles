@@ -1,0 +1,381 @@
+[colors]
+background = #222
+background-alt = #444
+foreground = #dfdfdf
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+empty_tag = #5f5f5f
+active_tag = #4eb4fa
+occupied_tag = #b7c6ff
+
+e1 = #ff5e79
+e2 = #f5d6a8
+e3 = #373972
+e4 = #00ff15
+e5 = #993db0
+e6 = #a65c6b
+e7 = #f61313
+e8 = #482ec8
+
+
+[icons]
+arrow_right = 
+arrow_left  = 
+
+battery_0 = 
+battery_1 = 
+battery_2 = 
+battery_3 = 
+battery_4 = 
+battery_ac = 
+
+divider = 
+divider_left = 
+
+clock = 
+
+MAIL_NO_NEW = 
+MAIL_NEW = 
+
+XMPP = 
+
+MUSIC = 
+MUSIC_PAUSE = 
+
+TOR = 
+ethernet = 
+wifi = 
+VPN = 
+
+headphones = 
+volume_low = 
+volume_med = 
+volume_high = 
+USB = 
+PA_SERVER = 
+
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[bar/bar]
+enable-ipc = true
+
+width = 100%
+height = 18
+fixed-center = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 0
+line-color = #f00
+
+overline-size = 0
+; overline-color = ${colors.accent}
+underline-size = 0
+; underline-color = ${colors.accent}
+
+padding-left = 0
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 1
+
+; Using the Awesome Icons from the Meslo Font leads to some alignment issues,
+; were the text isn't onscreen anymore
+font-0 = FontAwesome:size=8:weight=Regular
+font-1 = MesloLGMDZ Nerd Font Mono:size=8;1
+
+modules-left = ewmh
+; modules-center = mpd
+modules-right = battery vpncheck wlan eth volume mu date
+
+tray-position = right
+tray-padding = 9
+tray-maxsize = 18
+
+[module/ewmh]
+type = internal/xworkspaces
+
+label-foreground = ${colors.empty_tag}
+label-padding = 0
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = false
+
+; Create click handler used to focus desktop
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle desktops
+; Default: true
+enable-scroll = false
+
+; Available tags:
+;   <label-monitor>
+;   <label-state> - gets replaced with <label-(active|urgent|occupied|empty)>
+; Default: <label-state>
+format = <label-state>
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-monitor = %name%
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-active = "%icon% %name% "
+label-active-foreground = ${colors.active_tag}
+; label-active-background = #3f3f3f
+; label-active-background = ${self.label-background}
+; label-active-underline = #fba922
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-occupied = "%icon% %name% "
+label-occupied-foreground = ${colors.occupied_tag}
+; label-occupied-underline = #555555
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-urgent = "%icon% %name% "
+label-urgent-foreground = #bd2c40
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-empty = "%icon% %name% "
+label-empty-foreground   = ${self.label-foreground}
+
+[module/mpd]
+type = internal/mpd
+label-song = "    %artist% - %title%"
+label-song-foreground = #789a8c
+format-online = <label-song>
+
+toggle-on-foreground = #ff
+toggle-off-foreground = #55
+
+
+label-song-maxlen = 50
+label-song-ellipsis = true
+
+[module/wlan]
+type = internal/network
+interface = wlp2s0
+; ; Default: 1
+interval = 2.0
+
+; Available tags:
+; ;   <label-connected> (default)
+; ;   <ramp-signal>
+format-connected = <label-connected>
+; format-connected-underline = #9f78e1
+
+format-disconnected = <label-disconnected>
+
+; ; Available tokens:
+; ;   %ifname%    [wireless+wired]
+; ;   %local_ip%  [wireless+wired]
+; ;   %essid%     [wireless]
+; ;   %signal%    [wireless]
+; ;   %upspeed%   [wireless+wired]
+; ;   %downspeed% [wireless+wired]
+; ;   %linkspeed% [wired]
+; ; Default: %ifname% %local_ip%
+label-connected = "  %signal%% %essid%"
+label-connected-foreground = ${colors.e2}
+
+label-disconnected = " "
+label-disconnected-foreground = ${colors.e2}
+
+format-connected-foreground = ${self.label-connected-foreground}
+format-disconnected-foreground = ${self.label-disconnected-foreground}
+
+format-connected-prefix = ${icons.divider}
+format-connected-prefix-foreground = ${self.format-connected-foreground}
+
+format-disconnected-prefix = ${icons.divider}
+format-disconnected-prefix-foreground = ${self.format-connected-foreground}
+
+[module/eth]
+type = internal/network
+interface = enp0s25
+interval = 3.0
+
+label-connected = "  %local_ip%"
+
+format-disconnected = <label-disconnected>
+label-disconnected = ${icons.ethernet}
+label-disconnected-padding-left = 1
+
+label-connected-foreground = ${colors.e3}
+label-disconnected-foreground = ${colors.e3}
+
+format-connected-prefix = ${icons.divider}
+format-connected-prefix-foreground = ${self.label-disconnected-foreground}
+
+format-disconnected-prefix = ${icons.divider}
+format-disconnected-prefix-foreground = ${self.label-disconnected-foreground}
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = "  %a %b %d"
+date-alt = "  %W-%m-%d, KW %W"
+
+time = "  %H:%M"
+time-alt = " %H:%M:%S"
+
+label = %date%, %time%
+
+label-foreground = ${colors.e6}
+format-foreground = ${self.label-foreground}
+
+format-prefix = ${icons.divider}
+format-prefix-foreground = ${self.label-foreground}
+
+[module/volume]
+type = internal/pulseaudio
+
+label-volume = "%percentage%%"
+format-volume = <ramp-volume> <label-volume>
+
+format-muted-prefix = ${icons.divider}
+format-muted-foreground = ${colors.foreground-alt}
+label-muted = " muted"
+
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+ramp-headphones-0 = " "
+ramp-headphones-1 = " "
+
+label-volume-foreground = ${colors.e1}
+format-volume-foreground = ${self.label-volume-foreground}
+
+format-volume-prefix = ${icons.divider}
+format-volume-prefix-foreground = ${self.label-volume-foreground}
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+
+format-full-prefix = ${icons.divider}
+label-full = "   %percentage%%"
+
+format-discharging = <ramp-capacity> <label-discharging>
+ramp-capacity-0 = " "
+ramp-capacity-1 = " "
+ramp-capacity-2 = " "
+ramp-capacity-3 = " "
+ramp-capacity-4 = " "
+; ramp-capacity-foreground = ${colors.foreground-alt}
+
+format-charging = <animation-charging> <label-charging>
+animation-charging-0 = "  "
+animation-charging-1 = "  "
+animation-charging-2 = "  "
+animation-charging-3 = "  "
+animation-charging-4 = "  "
+animation-charging-framerate = 750
+
+format-full-foreground = ${colors.e4}
+label-full-foreground = ${self.format-full-foreground}
+
+format-charging-foreground = ${colors.e4}
+label-charging-foreground = ${self.format-charging-foreground}
+
+format-discharging-foreground = ${colors.e4}
+label-discharging-foreground = ${self.format-discharging-foreground}
+
+format-charging-prefix = ${icons.divider}
+format-charging-prefix-foreground = ${self.label-charging-foreground}
+
+format-discharging-prefix = ${icons.divider}
+format-discharging-prefix-foreground = ${self.label-discharging-foreground}
+
+[module/vpncheck]
+type = custom/script
+exec = pgrep openvpn
+interval = 5
+label = 
+label-foreground = ${colors.e8}
+
+format-prefix = ${icons.divider}
+format-prefix-foreground = ${self.label-foreground}
+
+[module/notmuch]
+type = custom/script
+; Available tokens:
+;   %counter%
+; Command to be executed (using "/usr/bin/env sh -c [command]")
+exec = notmuch count -- tag:unread
+; Conditional command that, if defined, needs to exit successfully
+; before the main exec command is invoked.
+; Default: ""
+exec-if = which notmuch > /dev/null 2>&1
+; Will the script output continous content?
+; Default: false
+tail = false
+; Seconds to sleep between updates
+; Default: 2 (0 if `tail = true`)
+interval = 20
+; Available tags:
+;   <output> - deprecated
+;   <label> (default)
+; format-underline = #fa6cf5
+; format-prefix-foreground = ${colors.foreground-alt}
+; Available tokens:
+;   %output%
+; Default: %output%
+label =  "  %output%"
+format =  <label>
+
+label-foreground = ${colors.e5}
+format-foreground = ${self.label-foreground}
+
+format-prefix = ${icons.divider}
+format-prefix-foreground = ${self.format-foreground}
+
+[module/mu]
+type = custom/script
+exec = mu find flag:unread 2>/dev/null | wc -l
+exec-if = which mu > /dev/null 2>&1
+tail = false
+interval = 20
+label =  "  %output%"
+format =  <label>
+
+label-foreground  = ${colors.e5}
+format-foreground = ${self.label-foreground}
+
+format-prefix = ${icons.divider}
+format-prefix-foreground = ${self.format-foreground}
+
+[settings]
+screenchange-reload = true
