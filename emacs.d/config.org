@@ -623,7 +623,7 @@ Enable arguments as motion and text objects
         (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
 #+END_SRC
 
-** Googles
+** Goggles
 A little animation when you yank/kill something so that you see the scope of
 that operation
 #+BEGIN_SRC emacs-lisp
