@@ -1532,17 +1532,14 @@ Font size way too big. Need to look into it
 * Python
 ** IDE package
 #+BEGIN_SRC emacs-lisp
-  (use-package anaconda-mode
-    :disabled t
-    :defer t
-    :bind
-    (
-     :map evil-normal-state-map
-          ("C-x ." . 'anaconda-mode-find-definitions)
-          )
-  )
-
-  (add-hook 'python-mode-hook 'anaconda-mode)
+    (use-package anaconda-mode
+      :disabled t
+      :defer t
+      :config
+      (add-hook 'python-mode-hook 'anaconda-mode)
+      :bind
+      (:map evil-normal-state-map
+            ("C-x ." . 'anaconda-mode-find-definitions)))
 #+END_SRC
 ** Docstrings
 #+BEGIN_SRC emacs-lisp
