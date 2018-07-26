@@ -514,9 +514,9 @@ Swiper makes the default search with C-s really neat.
 #+END_SRC
 
 ** Fuzzy match
-#+BEGIN_SRC emacs-lispp
+#+BEGIN_SRC emacs-lisp
   (use-package flx
-    :ensure t
+    :disabled t
     :init
     (setq ivy-re-builders-alist
         '((ivy-switch-buffer . ivy--regex-plus)
