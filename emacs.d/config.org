@@ -808,7 +808,10 @@ Enable on the fly spell checking with a special mode for source code to check in
 [[https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html]]
 #+BEGIN_SRC emacs-lisp
   (setq org-directory "~/.emacs.d/org/")
+  (setq org-default-inbox-file (concat org-directory "inbox.org"))
   (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-default-journal-file (concat org-directory "/journal.org"))
+
   (define-key global-map "\C-cc" 'org-capture)
   ;; Insert mode in capture mode
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
@@ -894,42 +897,42 @@ When editing a code block with C-c ', open it in the current window.
 #+BEGIN_SRC emacs-lisp
   (setq org-capture-templates
         '(("a" "Article" entry
-           (file+headline (concat org-directory "/inbox.org") "Article")
+           (file+headline org-default-inbox-file "Article")
            "* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %a\n:END:\n%i\nBrief description:\n%?"
            :prepend t
            :empty-lines 1
            :created t)
           ("b" "Books to read" entry
-           (file (concat org-directory "/inbox.org"))
+           (file org-default-inbox-file)
+           ;; (file "~/.emacs.d/org/inbox.org")
            "* %^{Title}\nby %^{Author}\n%^{Link}\nAdded: %U\n%^{Description}")
           ("c" "Code" entry
-           (file (concat org-directory "/inbox.org"))
+           (file org-default-inbox-file)
            "* %^{TITLE} %(org-set-tags)  :code:\n:PROPERTIES:\n:Created: %U\n:END:\n%i\#+BEGIN_SRC %^{language}\n%?\n\#END_SRC"
            :prepend t
            :empty-lines 1
            :created t
            :kill-buffer t)
           ("t" "Todo [inbox]" entry
-           ;; (file (concat org-directory "/inbox.org"))
-           (file "~/.emacs.d/org/inbox.org")
+           (file org-default-inbox-file)
            "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
           ("h" "Habit" entry
-           (file (concat org-directory "/inbox.org"))
+           (file org-default-inbox-file)
            "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
           ("m" "Meeting" entry
-           (file (concat org-directory "/inbox.org"))
+           (file org-default-inbox-file)
            "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
           ("p" "Phone call" entry
-           (file (concat org-directory "/inbox.org"))
+           (file org-default-inbox-file)
            "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
           ("j" "Journal" entry
-           (file+datetree (concat org-directory "/journal.org"))
+           (file+datetree org-default-journal)
            "* %?\n%U\n" :clock-in t :clock-resume t)
           ("n" "Note to currently clocked" entry
            (clock)
            "* %? :NOTE:\n%U\n%a\n")
           ("N" "Notes" entry
-           (file+datetree (concat org-directory "/notes.org"))
+           (file+datetree org-default-notes-file)
            "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)))
 #+END_SRC
 
