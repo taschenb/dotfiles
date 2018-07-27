@@ -808,15 +808,6 @@ Enable on the fly spell checking with a special mode for source code to check in
 [[https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html]]
 #+BEGIN_SRC emacs-lisp
   (setq org-directory "~/.emacs.d/org/")
-  (setq org-default-inbox-file (concat org-directory "inbox.org"))
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (setq org-default-journal-file (concat org-directory "/journal.org"))
-
-  (define-key global-map "\C-cc" 'org-capture)
-  ;; Insert mode in capture mode
-  (add-hook 'org-capture-mode-hook 'evil-insert-state)
-  ;; Insert mode when adding headers
-  (add-hook 'org-insert-heading-hook 'evil-insert-state)
 
   ;; wrap lines
   (add-hook 'org-mode-hook 'visual-line-mode)
@@ -893,7 +884,20 @@ When editing a code block with C-c ', open it in the current window.
 (setq org-src-window-setup 'current-window)
 #+END_SRC
 
-** Capture-Templates
+** Capture
+#+BEGIN_SRC emacs-lisp
+  (setq org-default-inbox-file (concat org-directory "inbox.org"))
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-default-journal-file (concat org-directory "/journal.org"))
+
+  (define-key global-map "\C-cc" 'org-capture)
+  ;; Insert mode in capture mode
+  (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  ;; Insert mode when adding headers
+  (add-hook 'org-insert-heading-hook 'evil-insert-state)
+#+END_SRC
+
+*** Capture-Templates
 #+BEGIN_SRC emacs-lisp
   (setq org-capture-templates
         '(("a" "Article" entry
