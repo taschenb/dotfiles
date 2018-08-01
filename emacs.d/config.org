@@ -1527,7 +1527,10 @@ Font size way too big. Need to look into it
     (add-hook 'python-mode-hook
               (lambda ()
                 (lsp-python-enable)))
-    )
+
+    :bind
+      (:map evil-normal-state-map
+            ("C-x ." . 'xref-find-definitions)))
 #+END_SRC
 
 ** UI
