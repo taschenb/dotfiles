@@ -1814,6 +1814,7 @@ Cquery is a really cool LSP plugin, that works rather well. I do prefer it over 
   :init
   (global-set-key (kbd "C-x g") 'magit-status)
   :config
+  ;; (setq magit-commit-arguments (quote ("--signoff")))
   (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
 
