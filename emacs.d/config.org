@@ -1536,7 +1536,9 @@ Font size way too big. Need to look into it
 ** UI
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
-    :ensure t)
+    :ensure t
+    :init
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 #+END_SRC
 
 * Python
