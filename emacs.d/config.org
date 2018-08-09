@@ -785,6 +785,17 @@ Evil-snipe emulates vim-seek and/or vim-sneak in evil-mode. It provides 2-charac
     )
 #+END_SRC
 
+* Which-key
+When you pause in the middle of a key-combo, display a available
+keybindings that you could continue with.
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :defer 0.2
+    :diminish
+    :config (which-key-mode))
+#+END_SRC
+
 * Spell checking
 Enable on the fly spell checking with a special mode for source code to check in comments
 #+BEGIN_SRC emacs-lisp
