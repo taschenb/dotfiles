@@ -527,14 +527,29 @@ Swiper makes the default search with C-s really neat.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
-    :init
-    (use-package counsel-projectile
-      :ensure t)
-    (use-package ag
-      :ensure t)
+    :bind (:map projectile-mode-map
+                ("C-c p" . 'projectile-command-map))
     :config
-    (projectile-mode)
+    (projectile-mode))
+#+END_SRC
+
+** Ivy integration
+#+BEGIN_QUOTE
+Projectile has native support for using ivy as its completion system. Counsel-projectile provides further ivy integration into projectile by taking advantage of ivy's support for selecting from a list of actions and applying an action without leaving the completion session. Concretely, counsel-projectile defines replacements for existing projectile commands as well as new commands that have no projectile counterparts. A minor mode is also provided that adds key bindings for all these commands on top of the projectile key bindings.
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :after ivy
+    :config
     (counsel-projectile-mode))
+#+END_SRC
+
+** Silversearcher dependency
+#+BEGIN_SRC emacs-lisp
+  (use-package ag
+    :ensure t)
 #+END_SRC
 
 * Evil-Mode (VIM)
