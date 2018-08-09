@@ -658,7 +658,11 @@ Evil-snipe emulates vim-seek and/or vim-sneak in evil-mode. It provides 2-charac
     :ensure t
     :init
     (use-package ace-window
-      :ensure t)
+      :ensure t
+      :bind (("C-x C-o" . ace-window)
+             ("C-x o" . ace-window))
+      :config
+      (setq aw-keys '(?j ?k ?l ?u ?i ?o ?p ?n ?m)))
     :config
     (defhydra hydra-window-stuff (:hint nil)
       "
