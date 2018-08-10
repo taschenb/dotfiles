@@ -748,6 +748,20 @@ Evil-snipe emulates vim-seek and/or vim-sneak in evil-mode. It provides 2-charac
 
   (global-set-key (kbd "C-c t") #'hydra-window/body)
 #+END_SRC
+
+** Often used files
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-edit-often (:hint nil)
+
+    "Edit often used files"
+    ("e"  (find-file "~/.emacs.d/config.org") "emacs" :color blue)
+    ("i"  (find-file "~/.emacs.d/org/inbox.org") "inbox" :color blue)
+    ("w"  (find-file "~/.emacs.d/org/work.org") "work" :color blue)
+    ("h"  (find-file "~/.emacs.d/org/home.org") "home" :color blue)
+
+    ("q"   quit-window "quit" :color teal))
+
+  (global-set-key (kbd "C-c n") #'hydra-edit-often/body)
 #+END_SRC
 
 * Which-key
