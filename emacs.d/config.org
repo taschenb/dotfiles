@@ -541,6 +541,13 @@ Swiper makes the default search with C-s really neat.
     :bind (:map projectile-mode-map
                 ("C-c p" . 'projectile-command-map))
     :config
+    (setq projectile-globally-ignored-directories
+          (append '(".git"
+                    ".ccls-cache"
+                    ".cquery_cached_index"
+                    "build"
+                    "target"
+                    "venv")))
     (projectile-mode))
 #+END_SRC
 
