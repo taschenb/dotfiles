@@ -1530,6 +1530,10 @@ Font size way too big. Need to look into it
   (use-package lsp-mode
     :ensure t
     :config
+    ;; Enable imenu-ingegration
+    (require 'lsp-imenu)
+    (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+
     (lsp-define-stdio-client lsp-python "python"
                              #'projectile-project-root
                              '("pyls"))
