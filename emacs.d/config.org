@@ -1293,17 +1293,28 @@ Because dvipng can't handle tikz, use imagemagick
 #+END_SRC
 ** Hydra
 #+BEGIN_SRC emacs-lisp
-(defhydra hydra-flycheck
-  (:pre (progn (setq hydra-lv t) (flycheck-list-errors))
-   :post (progn (setq hydra-lv nil) (quit-windows-on "*Flycheck errors*"))
-   :hint nil)
-  "Errors"
-  ("f"  flycheck-error-list-set-filter                            "Filter")
-  ("n"  flycheck-next-error                                       "Next")
-  ("p"  flycheck-previous-error                                   "Previous")
-  ("gg" flycheck-first-error                                      "First")
-  ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
-  ("q"  nil))
+  (defhydra hydra-flycheck (:color blue)
+    "
+    ^
+    ^Flycheck^          ^Errors^            ^Checker^
+    ^────────^──────────^──────^────────────^───────^─────
+    _q_ quit            _p_ previous        _?_ describe
+    _M_ manual          _n_ next            _d_ disable
+    _v_ verify setup    _f_ check           _m_ mode
+    ^^                  _l_ list            _s_ select
+    ^^                  ^^                  ^^
+    "
+    ("q" nil)
+    ("n" flycheck-previous-error :color pink)
+    ("p" flycheck-next-error :color pink)
+    ("?" flycheck-describe-checker)
+    ("M" flycheck-manual)
+    ("d" flycheck-disable-checker)
+    ("f" flycheck-buffer)
+    ("l" flycheck-list-errors)
+    ("m" flycheck-mode)
+    ("s" flycheck-select-checker)
+    ("v" flycheck-verify-setup))
 #+END_SRC
 
 * Whitespaces
