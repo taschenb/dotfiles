@@ -1711,14 +1711,6 @@ Cquery is a really cool LSP plugin, that works rather well. I do prefer it over 
     :init (flycheck-clang-tidy-setup))
 #+END_SRC
 
-** Static analyzer
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck-clang-analyzer
-    :ensure t
-    :after flycheck
-    :config (flycheck-clang-analyzer-setup))
-#+END_SRC
-
 ** checkpatch
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-checkpatch
