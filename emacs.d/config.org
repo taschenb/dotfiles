@@ -2093,6 +2093,7 @@ http://kitchingroup.cheme.cmu.edu/blog/2015/09/04/Checking-for-email-attachments
           mu4e-confirm-quit nil
           mu4e-context-policy 'pick-first
           mu4e-compose-dont-reply-to-self t
+          mu4e-compose-format-flowed t
           mu4e-view-show-addresses 't
           message-kill-buffer-on-exit t
           )
