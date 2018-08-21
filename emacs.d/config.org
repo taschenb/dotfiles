@@ -428,12 +428,12 @@ Allows to 'undo'/'redo' changes in the window configuration with the key command
 ** ace-window
 Switch window in a precise manner
 #+BEGIN_SRC emacs-lisp
-    (use-package ace-window
-      :ensure t
-      :bind (("C-x C-o" . ace-window)
-             ("C-x o" . ace-window))
-      :config
-      (setq aw-keys '(?j ?k ?l ?u ?i ?o ?p ?n ?m)))
+  (use-package ace-window
+    :ensure t
+    ;; :bind (("C-x C-o" . ace-window)
+    ;;        ("C-x o" . ace-window))
+    :config
+    (setq aw-keys '(?j ?k ?l ?u ?i ?o ?p ?n ?m)))
 #+END_SRC
 
 * Garbage collection
