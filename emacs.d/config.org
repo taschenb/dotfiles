@@ -513,15 +513,8 @@ Swiper makes the default search with C-s really neat.
   (use-package ivy-rich
     :after ivy
     :ensure t
-    :custom
-    (ivy-virtual-abbreviate 'full
-                            ivy-rich-switch-buffer-align-virtual-buffer t
-                            ivy-rich-path-style 'abbrev)
-    :config
-    (ivy-set-display-transformer 'ivy-switch-buffer
-                                 'ivy-rich-switch-buffer-transformer)
-    (ivy-set-display-transformer 'ivy-switch-buffer-other-window
-                                 'ivy-rich-switch-buffer-transformer))
+    :init
+    (ivy-rich-mode 1))
 #+END_SRC
 
 ** Fuzzy match
