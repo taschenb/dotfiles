@@ -1918,6 +1918,10 @@ will be surrounded by dollar signs.
     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 #+END_SRC
 
+** Tikz
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.tikz\\'" . latex-mode))
+#+END_SRC
 ** PDF
 Compile to PDF per default
 #+BEGIN_SRC emacs-lisp
