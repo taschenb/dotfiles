@@ -1369,6 +1369,11 @@ Treat underscore as word
   ;; (setq-default c-basic-offset 4)
 #+END_SRC
 
+** Evil tab
+#+BEGIN_SRC emacs-lisp
+  (define-key evil-normal-state-map (kbd "TAB") 'indent-for-tab-command)
+#+END_SRC
+
 ** Editorconfig
 Respect [[http://editorconfig.org/][editorconfig]] to automatically get the right style on multiple editors.
 #+BEGIN_SRC emacs-lisp
