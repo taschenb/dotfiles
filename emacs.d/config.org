@@ -1898,13 +1898,15 @@ Cquery is a really cool LSP plugin, that works rather well. I do prefer it over 
   (use-package tex
     :ensure auctex
     :defer t
-  :config
-  (add-to-list 'TeX-view-program-list
-               '("Zathura"
-                 ("zathura %o"
-                  (mode-io-correlate " --synctex-forward %n:0:%b -x \"emacsclient --socket-name=%sn --no-wait +%{line} %{input}\""))
-                 "zathura"))
-  )
+    :config
+    (add-to-list 'TeX-view-program-list
+                 '("Zathura"
+                   ("zathura %o"
+                    (mode-io-correlate " --synctex-forward %n:0:%b -x \"emacsclient --socket-name=%sn --no-wait +%{line} %{input}\""))
+                   "zathura"))
+    :bind
+    ;; Make it easier to enter backslashes
+    (:map TeX-mode-map ("/" . "\\")))
 #+END_SRC
 
 ** Entering math
