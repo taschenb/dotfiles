@@ -2073,21 +2073,21 @@ http://kitchingroup.cheme.cmu.edu/blog/2015/09/04/Checking-for-email-attachments
   (use-package mu4e
     :bind (("<f3>" . mu4e))
     :init
-     (defun my-make-mu4e-context (name address fullname signature)
-        "Return a mu4e context named NAME with :match-func matching
-      its ADDRESS in From or CC fields of the parent message. The
-      context's `user-mail-address' is set to ADDRESS and its
-      `mu4e-compose-signature' to SIGNATURE."
-        (lexical-let ((addr-lex address))
-          (make-mu4e-context :name name
-                             :vars `((user-mail-address . ,address)
-                                     (user-full-name . ,fullname)
-                                     (mu4e-compose-signature . ,signature))
-                             :match-func
-                             (lambda (msg)
-                               (when msg
-                                 (or (mu4e-message-contact-field-matches msg :to addr-lex)
-                                     (mu4e-message-contact-field-matches msg :cc addr-lex)))))))
+    (defun my-make-mu4e-context (name address fullname signature)
+      "Return a mu4e context named NAME with :match-func matching
+       its ADDRESS in From or CC fields of the parent message. The
+       context's `user-mail-address' is set to ADDRESS and its
+        `mu4e-compose-signature' to SIGNATURE."
+           (lexical-let ((addr-lex address))
+             (make-mu4e-context :name name
+                                :vars `((user-mail-address . ,address)
+                                        (user-full-name . ,fullname)
+                                        (mu4e-compose-signature . ,signature))
+                                :match-func
+                                (lambda (msg)
+                                  (when msg
+                                    (or (mu4e-message-contact-field-matches msg :to addr-lex)
+                                        (mu4e-message-contact-field-matches msg :cc addr-lex)))))))
     :config
     (require 'org-mu4e)
 
@@ -2121,8 +2121,8 @@ http://kitchingroup.cheme.cmu.edu/blog/2015/09/04/Checking-for-email-attachments
 
     ;; Maildir-shortcuts
     (setq mu4e-maildir-shortcuts
-    '( ("/context1/INBOX" . ?m)
-       ("/context2/INBOX"  . ?p)))
+          '( ("/context1/INBOX" . ?m)
+             ("/context2/INBOX"  . ?p)))
 
     ;; Bookmarks
     (add-to-list 'mu4e-bookmarks
@@ -2148,14 +2148,14 @@ http://kitchingroup.cheme.cmu.edu/blog/2015/09/04/Checking-for-email-attachments
 
     ;; Own adresses
     (setq mu4e-user-mail-address-list '("address1@domain.com"
-					"address2@domain.com"))
+                                        "address2@domain.com"))
 
     ;; Contexts
     (setq mu4e-contexts `(
-           ,(my-make-mu4e-context "context1" "address1@domain.com"
-                                  "name1" nil)
-           ,(my-make-mu4e-context "context2" "address2@domain.com"
-                                  "name2" nil)))
+                          ,(my-make-mu4e-context "context1" "address1@domain.com"
+                                                 "name1" nil)
+                          ,(my-make-mu4e-context "context2" "address2@domain.com"
+                                                 "name2" nil)))
 
 
     :bind (:map mu4e-headers-mode-map
