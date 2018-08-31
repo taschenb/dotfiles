@@ -346,20 +346,22 @@ Emacs keeps track of files that you are currently editing by creating a symbolic
 #+BEGIN_SRC emacs-lisp
 (setq create-lockfiles nil)
 #+END_SRC
+
 * Undo
 A really handy feature from vim is undo-tree. A undo-tree saves your history as a tree rather than a single time-line.
 That way you can't destroy your progress if you go back in your history and make a change. You only split your undo-tree at that point in multiple branches.
 The Emacs version is however a little unstable.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package undo-tree
-    :ensure t
-    :config
-    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))
-          undo-tree-auto-save-history t
-          undo-tree-visualizer-timestamps t
-          undo-tree-visualizer-diff t)
-    (global-undo-tree-mode))
+    (use-package undo-tree
+      :ensure t
+      :config
+      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))
+            undo-tree-auto-save-history t
+            undo-tree-enable-undo-in-region nil
+            undo-tree-visualizer-timestamps t
+            undo-tree-visualizer-diff t)
+      (global-undo-tree-mode))
 #+END_SRC
 
 * Revert
