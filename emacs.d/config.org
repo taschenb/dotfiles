@@ -849,8 +849,8 @@ Enable on the fly spell checking with a special mode for source code to check in
     (require 'org-ref-pdf)
     (setq reftex-default-bibliography '("~/.emacs.d/bibliography/references.bib"))
     (setq org-ref-bibliography-notes "~/.emacs.d/bibliography/notes.org"
-        org-ref-default-bibliography '("~/.emacs.d/bibliography/references.bib")
-        org-ref-pdf-directory "~/uni/Master/Thesis/paper/")
+          org-ref-default-bibliography '("~/.emacs.d/bibliography/references.bib")
+          org-ref-pdf-directory "~/uni/Master/Thesis/paper/")
   )
 #+END_SRC
 
@@ -1061,7 +1061,7 @@ Make common times available to quickly select
 ** Agenda
 *** Shortcuts
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f1>") 'org-agenda)
+  (global-set-key (kbd "<f1>") 'org-agenda)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1246,7 +1246,7 @@ Make common times available to quickly select
 ** LibreOffice
 *** odt
 #+BEGIN_SRC emacs-lisp
-(require 'ox-odt)
+  (require 'ox-odt)
 #+END_SRC
 
 *** ods
@@ -1384,9 +1384,9 @@ Trimming spaces from end of lines tends to get rather noisy if you work in a cod
 With this you can commit proper code without annoying anyone.
 #+BEGIN_SRC emacs-lisp
   (use-package ws-butler
-      :ensure t
-      :config
-      (ws-butler-global-mode))
+    :ensure t
+    :config
+    (ws-butler-global-mode))
 #+END_SRC
 
 * Writegood
@@ -1416,9 +1416,9 @@ By default, Emacs thinks a sentence is a full-stop followed by 2 spaces.
 
 Treat underscore as word
 #+BEGIN_SRC emacs-lisp
-    ;;(modify-syntax-entry ?_ "w")
-    (modify-syntax-entry ?_ "w" (standard-syntax-table))
-(add-hook 'c-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;;(modify-syntax-entry ?_ "w")
+  (modify-syntax-entry ?_ "w" (standard-syntax-table))
+  (add-hook 'c-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 #+END_SRC
 
 * Indentation
@@ -1635,14 +1635,14 @@ Font size way too big. Need to look into it
 * Python
 ** IDE package
 #+BEGIN_SRC emacs-lisp
-    (use-package anaconda-mode
-      :disabled t
-      :defer t
-      :config
-      (add-hook 'python-mode-hook 'anaconda-mode)
-      :bind
-      (:map evil-normal-state-map
-            ("C-x ." . 'anaconda-mode-find-definitions)))
+  (use-package anaconda-mode
+    :disabled t
+    :defer t
+    :config
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    :bind
+    (:map evil-normal-state-map
+          ("C-x ." . 'anaconda-mode-find-definitions)))
 #+END_SRC
 ** Docstrings
 #+BEGIN_SRC emacs-lisp
@@ -1698,14 +1698,14 @@ For C/C++ I use gdb with many-windows.
 ** Indentation & Style
 #+BEGIN_SRC emacs-lisp
   (defun my-c++-mode-hook ()
-  ;; Use a sane style
-  (c-set-style "linux")
-  ;; Break lines
-  (auto-fill-mode)
-  ;; If deleting a whitespace, delete all whitespaces before as well
-  (c-toggle-auto-hungry-state 1)
-  ;; Add a linebreak when entering ';' etc
-  (c-toggle-auto-newline 1))
+    ;; Use a sane style
+    (c-set-style "linux")
+    ;; Break lines
+    (auto-fill-mode)
+    ;; If deleting a whitespace, delete all whitespaces before as well
+    (c-toggle-auto-hungry-state 1)
+    ;; Add a linebreak when entering ';' etc
+    (c-toggle-auto-newline 1))
 
   (add-hook 'c-mode-common-hook 'my-c++-mode-hook)
 #+END_SRC
@@ -1744,14 +1744,13 @@ Make the default gdb view more useful by showing multiple windows with various i
 #+END_SRC
 ** Cmake-IDE
 #+BEGIN_SRC emacs-lisp
-    (use-package cmake-ide
+  (use-package cmake-ide
     :ensure t
     :after projectile
     :defer t
     :config
     (cmake-ide-setup)
-    (setq cmake-ide-build-dir (concat (projectile-project-root) "/build-make"))
-  )
+    (setq cmake-ide-build-dir (concat (projectile-project-root) "/build-make")))
 #+END_SRC
 
 ** cquery
@@ -1910,26 +1909,29 @@ Cquery is a really cool LSP plugin, that works rather well. I do prefer it over 
 * Snippets
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
-  :ensure t
-  :defer t
-  :config
-  (yas/initialize)
-  (yas/load-directory "~/.emacs.d/snippets")
-  :init
+    :ensure t
+    :defer t
+    :config
+    (yas/initialize)
+    ;; Custom snippets
+    (yas/load-directory "~/.emacs.d/snippets"))
+#+END_SRC
+
+** Snippets
+#+BEGIN_SRC emacs-lisp
   (use-package yasnippet-snippets
-   :ensure t)
-  )
+    :ensure t)
 #+END_SRC
 
 * Git
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-  :ensure t
-  :init
-  (global-set-key (kbd "C-x g") 'magit-status)
-  :config
-  ;; (setq magit-commit-arguments (quote ("--signoff")))
-  (add-hook 'git-commit-mode-hook 'evil-insert-state))
+    :ensure t
+    :init
+    (global-set-key (kbd "C-x g") 'magit-status)
+    :config
+    ;; (setq magit-commit-arguments (quote ("--signoff")))
+    (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
 
 ** git-gutter
@@ -2409,30 +2411,30 @@ The default font is too tiny to read for me
   (setq eshell-prompt-regexp " ")   ; or "└─> "
   (setq eshell-prompt-string " ")   ; or "└─> "
 
-(esh-section esh-dir
-             "\xf07c"  ;  (faicon folder)
-             (abbreviate-file-name (eshell/pwd))
-             '(:foreground "gold" :bold ultra-bold :underline t))
+  (esh-section esh-dir
+               "\xf07c"  ;  (faicon folder)
+               (abbreviate-file-name (eshell/pwd))
+               '(:foreground "gold" :bold ultra-bold :underline t))
 
-(esh-section esh-git
-             ""  ;  (git icon)
-             (magit-get-current-branch)
-             '(:foreground "pink"))
+  (esh-section esh-git
+               ""  ;  (git icon)
+               (magit-get-current-branch)
+               '(:foreground "pink"))
 
-;;(esh-section esh-python
- ;;            "\xe928"  ;  (python icon)
-  ;;           pyvenv-virtual-env-name)
+  ;; (esh-section esh-python
+  ;;              "\xe928"  ;  (python icon)
+  ;;              pyvenv-virtual-env-name)
 
-;; Choose which eshell-funcs to enable
-(setq eshell-funcs (list esh-dir esh-git) )
+  ;; Choose which eshell-funcs to enable
+  (setq eshell-funcs (list esh-dir esh-git) )
 
-;; Enable the new eshell prompt
-(setq eshell-prompt-function 'esh-prompt-func)
+  ;; Enable the new eshell prompt
+  (setq eshell-prompt-function 'esh-prompt-func)
 #+END_SRC
 
 * Browser
 #+BEGIN_SRC emacs-lisp
-(when (equal system-type 'gnu/linux)
+  (when (equal system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
           browse-url-generic-program "xdg-open"))
 #+END_SRC
