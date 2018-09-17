@@ -1427,7 +1427,7 @@ Treat underscore as word
   (setq-default indent-tabs-mode t)
   (setq default-tab-width 8)
   ;; For spaces you would do something like this:
-  ;; (setq-default indent-tabs-mode t)
+  ;; (setq-default indent-tabs-mode nil)
   ;; (setq-default c-basic-offset 4)
 #+END_SRC
 
