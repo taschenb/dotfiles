@@ -1989,6 +1989,7 @@ will be surrounded by dollar signs.
 ** Tikz
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.tikz\\'" . latex-mode))
+(add-to-list 'auto-mode-alist '("\\.pgf\\'" . latex-mode))
 #+END_SRC
 ** PDF
 Compile to PDF per default
