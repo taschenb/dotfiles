@@ -1538,6 +1538,8 @@ Illustrate different levels with different colors
     :bind ( :map company-active-map
                  ("M-n" . nil)
                  ("M-p" . nil)
+                 ("<return>" . nil)
+                 ("RET" . nil)
                  ("C-j" . #'company-complete)
                  ("C-n" . #'company-select-next)
                  ("C-p" . #'company-select-previous)))
