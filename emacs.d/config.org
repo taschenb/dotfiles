@@ -1399,6 +1399,13 @@ With this you can commit proper code without annoying anyone.
     (ws-butler-global-mode))
 #+END_SRC
 
+* Line length
+Color every character exceeding the 80 characters limit red
+#+BEGIN_SRC emacs-lisp
+  (setq whitespace-style '(face lines-tail))
+  (add-hook 'prog-mode-hook 'whitespace-mode)
+#+END_SRC
+
 * Writegood
 Writegood highlights text based on a set of weasel-words, passive-voice and duplicate words.
 
