@@ -1,4 +1,5 @@
 * init.el
+** Babel
 To better structure my configuration, org-babel allows you to write your configuration in org-mode.
 On load it parses the document for any emacs-lisp source blocks and evaluates them.
 The solution from
@@ -50,6 +51,15 @@ The following has to be in your init.el and everything else is in a file config.
         (apply 'insert (reverse body-list)))
      ;; (message "Wrote %s ..." elfile))
    (load-file elfile))
+#+END_SRC
+
+** Custom-file
+Write all custom settings, emacs is automatically setting, into a
+separate file and do not append it to init.el.
+
+#+BEGIN_SRC emacs-lisp
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(load custom-file :noerror)
 #+END_SRC
 
 * Encoding
