@@ -1769,7 +1769,7 @@ Make the default gdb view more useful by showing multiple windows with various i
     :defer t
     :config
     (cmake-ide-setup)
-    (setq cmake-ide-build-dir (concat (projectile-project-root) "/build-make")))
+    (setq cmake-ide-build-dir (concat (projectile-project-root) "/build"))
 #+END_SRC
 
 ** cquery
