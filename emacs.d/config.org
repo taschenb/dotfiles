@@ -2073,7 +2073,9 @@ View PDFs
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
     :ensure t
-    :defer t)
+    :config
+    (pdf-tools-install)
+    (setq-default pdf-view-display-size 'fit-page))
 #+END_SRC
 
 * Salt
