@@ -1071,7 +1071,7 @@ Make common times available to quickly select
 ** Agenda
 *** Shortcuts
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<f1>") 'org-agenda)
+  (global-set-key (kbd "<f1>") '(lambda (&optional arg) (interactive "P")(org-agenda arg " ")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
