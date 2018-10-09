@@ -1390,7 +1390,9 @@ Because dvipng can't handle tikz, use imagemagick
 #+END_SRC
 
 * Whitespaces
-Trimming spaces from end of lines tends to get rather noisy if you work in a codebase, there not everyone is trimming their code. ws-butler solves this problem by trimming only the lines you edited.
+Trimming spaces from end of lines tends to get rather noisy if you
+work in a codebase, there not everyone is trimming their code.
+ws-butler solves this problem by trimming only the lines you edited.
 With this you can commit proper code without annoying anyone.
 #+BEGIN_SRC emacs-lisp
   (use-package ws-butler
