@@ -1984,6 +1984,12 @@ Cquery is a really cool LSP plugin, that works rather well. I do prefer it over 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 #+END_SRC
+** Single frame
+Do not open the control interface in its own frame.
+
+#+BEGIN_SRC emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+END_SRC
 * LaTex
 ** Auctex
 #+BEGIN_SRC emacs-lisp
