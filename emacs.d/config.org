@@ -1726,6 +1726,14 @@ the same language server.
     (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 #+END_SRC
 
+* ivy-xref
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-xref
+    :ensure t
+    :init
+    (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+#+END_SRC
+
 * Python
 ** IDE package
 #+BEGIN_SRC emacs-lisp
