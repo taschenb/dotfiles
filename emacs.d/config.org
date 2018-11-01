@@ -2275,6 +2275,15 @@ http://kitchingroup.cheme.cmu.edu/blog/2015/09/04/Checking-for-email-attachments
         (load-file personal-email-file)))
 #+END_SRC
 
+*** helm-mu
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-mu
+    :ensure t
+    :config
+    (define-key mu4e-main-mode-map "s" 'helm-mu)
+    (define-key mu4e-headers-mode-map "s" 'helm-mu)
+    (define-key mu4e-view-mode-map "s" 'helm-mu))
+#+END_SRC
 *** Folding
 #+BEGIN_SRC emacs-lisp
 (defun mu4e~headers-msg-unread (msg)
